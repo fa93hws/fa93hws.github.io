@@ -21,7 +21,7 @@ module.exports = merge(config, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.WatchIgnorePlugin([
-      /less\.d\.ts$/
+      /less\.d\.ts$/, /css\.d\.ts$/
     ]),
   ],
   module: {

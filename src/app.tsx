@@ -4,9 +4,14 @@ import Loadable from 'react-loadable';
 import 'normalize.css';
 
 import LeftNav from './container/nav';
-import HomePage from './container/home';
+import PageLoading from './container/page-loading';
 import './assets/styles/site.less';
 import './assets/styles/icon-font.css';
+
+const HomePage = Loadable({
+  loader: () => import(/* webpackChunkName: "home" */'./container/home'),
+  loading: PageLoading
+})
 
 
 export default function App() {
