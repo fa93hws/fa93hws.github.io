@@ -9,7 +9,7 @@ import { Repository } from '@/models/repository';
 const queryNode: GQNode = buildIssuesGQNode(['blog'], 10, [
   'totalCount', {
     name: 'nodes',
-    children: ['createdAt', 'title', 'bodyHTML',
+    children: ['createdAt', 'title', 'body', 'number',
       buildLabelGQNode(['color', 'description', 'name']),
       buildAuthorGQNode(['name', 'avatarUrl', 'url'])
     ]
@@ -20,7 +20,7 @@ const query = '{' + buildQuery(queryNode) + '}';
 const dataResolver: Promise<IPageable<IBlog>> = new Promise((resolve, reject) => {
   const cache = load<IPageable<IBlog>>('blogList');
   if (cache !== undefined)
-    resolve(cache);
+    return resolve(cache);
   baseApi.post(query).then(res => {
     const repository = new Repository();
     repository.parseGQResponse(res.data.data.repository);
