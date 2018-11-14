@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{386:function(n,e,t){n.exports={container:"container--3jCWR"}},387:function(n,e,t){"use strict";t.r(e),t.d(e,"default",function(){return r});var a=t(1),c=t.n(a),i=t(386),o=t.n(i);function r(){return c.a.createElement("main",{className:"main__container "+o.a.container},"123")}}}]);
