@@ -1,3 +1,4 @@
+// Factory method to generate lazy component with ajax
 import { lazy, ComponentType, LazyExoticComponent } from 'react';
 
 export default function lazyComponentFactory<T> (
