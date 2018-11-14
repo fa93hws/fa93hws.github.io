@@ -1,0 +1,70 @@
+.left {
+  position: relative;
+  z-index: 10;
+  width: 240px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.loading {
+  position: relative;
+  align-self: center;
+  border-right: 1px solid rgba(40, 38, 44, 0.25);
+}
+
+.author {
+  position: relative;
+  z-index: 5;
+  background: #6AA1C9;
+  padding: 40px 0 40px 20px;
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+  .name {
+    margin-top: 1em;
+    color: #F9FEFF;
+  }
+  .email {
+    color: #c5cae9;
+    font-size: 14px;
+    margin-top: 0.5em;
+  }
+}
+
+.nav {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  font-size: 18px;
+  padding-top: 10px;
+  box-sizing: border-box;
+  border-right: 1px solid rgba(40, 38, 44, 0.25);
+  box-shadow: 0 0 10px 0 rgba(40, 38, 44, 0.25);
+
+  .nav-list-item {
+    display: block;
+    color: #777777;
+    &:hover {
+      color: #2F407F;
+      background: rgba(47, 64, 127, 0.125);
+    }
+  }
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+    line-height: 44px;
+    & > .icon {
+      margin: 0 30px 0 20px;
+    }
+  }
+  // some icons are too large
+  .nav-list-item:nth-child(3) > .nav-menu > .icon {
+    font-size: 16px;
+  }
+}

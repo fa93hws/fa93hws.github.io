@@ -1,0 +1,37 @@
+.lt-loading__animated {
+  animation: loading-animation 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+
+:global {
+  .lt-loading__container {
+    display: inline-flex;
+    align-items: center;
+    height: 64px;
+  }
+  .lt-loading__rect {
+    width: 13px;
+    height: 26px;
+    background: #fff;
+  }
+  .lt-loading__rect:not(:first-child) {
+    margin-left: 6px;
+  }
+  .lt-loading__rect--0 {
+    animation-delay: -0.24s;
+  }
+  .lt-loading__rect--1 {
+    animation-delay: -0.12s;
+  }
+  .lt-loading__rect--2 {
+    animation-delay: 0;
+  }
+}
+
+@keyframes loading-animation {
+  0% {
+    transform: scaleY(2);
+  }
+  50%, 100% {
+    transform: scaleY(1);
+  }
+}

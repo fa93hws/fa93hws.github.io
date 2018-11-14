@@ -1,0 +1,6 @@
+node_modules
+package-lock.json
+*.less.d.ts
+*.css.d.ts
+src/**/*.css
+!src/assets/styles/icon-font.css
