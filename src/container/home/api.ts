@@ -1,10 +1,10 @@
 import { baseApi } from '@/apis/base-graphql';
 import { buildIssuesGQNode, buildAuthorGQNode, buildLabelGQNode } from '@/apis/graphql/queries/blogs';
-import buildQuery, { GQNode } from '@/utils/graphql/query-builder';
+import { GQNode } from '@/utils/graphql/query-builder';
 import { save, load } from '@/utils/ssr-helper';
 import { IPageable } from '@/models/pageable';
 import { IBlog } from '@/models/blog';
-import { Repository } from '@/models/repository';
+import { Repository, IRawRepository } from '@/models/repository';
 
 const queryNode: GQNode = buildIssuesGQNode(['blog'], 10, [
   'totalCount', {
@@ -15,15 +15,14 @@ const queryNode: GQNode = buildIssuesGQNode(['blog'], 10, [
     ]
   }
 ]);
-const query = '{' + buildQuery(queryNode) + '}';
 
 const dataResolver: Promise<IPageable<IBlog>> = new Promise((resolve, reject) => {
   const cache = load<IPageable<IBlog>>('blogList');
   if (cache !== undefined)
     return resolve(cache);
-  baseApi.post(query).then(res => {
+  baseApi.post<IRawRepository>(queryNode).then(raw => {
     const repository = new Repository();
-    repository.parseGQResponse(res.data.data.repository);
+    repository.parseGQResponse(raw);
     save(repository.blogs, 'blogList');
     resolve(repository.blogs);
   }).catch(reject)

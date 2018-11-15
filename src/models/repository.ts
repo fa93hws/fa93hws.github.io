@@ -3,7 +3,7 @@ import BaseModel, { IGQModel } from './base';
 import { IBlog, IRawBlog, BlogModel } from './blog';
 import { IPageable } from './pageable';
 
-interface IRawRepository {
+export interface IRawRepository {
   issues: {
     totalCount: number;
     nodes: IRawBlog[];
