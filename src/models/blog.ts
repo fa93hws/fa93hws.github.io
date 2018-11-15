@@ -18,6 +18,7 @@ export interface IBlog {
   timeStr?: string;
   title?: string;
   body?: string;
+  content?: string;
   labels?: Array<ILabelModel>;
   author?: IPerson;
   id?: string;
@@ -28,6 +29,7 @@ export class BlogModel extends BaseModel implements IBlog, IGQModel {
   public createdAt: string;
   public title: string;
   public body: string;
+  public content: string;
   public labels: Array<ILabelModel>;
   public author: IPerson;
   public id: string;

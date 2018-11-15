@@ -72,7 +72,7 @@ module.exports = merge(config, {
     new CopyWebpackPlugin(['_config.yml', 'CNAME']),
     new PrerenderSPAPlugin({
       staticDir: path.join(__dirname, '../dist'),
-      routes: ['/'],
+      routes: ['/', '/404'],
       postProcess (renderedRoute) {
         renderedRoute.route = renderedRoute.originalRoute;
         return renderedRoute;

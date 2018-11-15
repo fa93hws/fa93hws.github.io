@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import bindthis from '@/utils/decorators/bindthis';
 import buildQuery, { GQNode } from './query-builder';
@@ -30,6 +30,9 @@ class GQCacheManager {
       throw new Error(`cache idx=${idx} is not init yet and hence can not set cache for it.`);
     this._cache[idx].pendingFlag = false;
     this._cache[idx].data = data;
+    setTimeout(() => {
+      this._cache[idx] = undefined;
+    }, 10000);
   }
   public getCache(idx: number): any {
     if (this._cache[idx] === undefined)
@@ -54,17 +57,23 @@ export default class GraphqlApi {
     this.axiosInstance = axios.create(config);
   }
 
-  @bindthis private wait(requestIdx: number, callback: (data: any) => void) {
+  @bindthis private wait(requestIdx: number, resolve: (data: any) => void) {
     if (this.cache.isPending(requestIdx))
-      setTimeout(() => this.wait(requestIdx, callback), 100);
+      setTimeout(() => this.wait(requestIdx, resolve), 100);
     else
-      callback(this.cache.getCache(requestIdx));
+      resolve(this.cache.getCache(requestIdx));
   };
 
   private submit = (requestIdx: number) => new Promise((resolve, reject) => {
     // request has been sent, wait for the response
     if (this.cache.isPending(requestIdx))
-      return this.wait(requestIdx, resolve);
+      return this.wait(requestIdx, data => {
+        console.log('data', data)
+        if ('errors' in data)
+          reject(data);
+        else
+          resolve(data);
+      });
 
     const queries = this.pendingQueries.map(buildQuery);
     this.pendingQueries = [];
@@ -72,12 +81,12 @@ export default class GraphqlApi {
     this.cache.changePending(requestIdx, true);
 
     this.axiosInstance.post('', { query }).then(res => {
+      console.log(res);
+      this.cache.setCache(requestIdx, res.data.data);
       if ('errors' in res.data)
         reject(res.data.errors);
-      else {
-        this.cache.setCache(requestIdx, res.data.data);
+      else
         resolve(res.data.data)
-      }
     }).catch(reject);
   });
 

@@ -6,6 +6,7 @@ export interface GQNode {
   search?: GQSearch;
   children?: Array<GQNode | string>;
   on?: string;
+  alias?: string;
 }
 
 function translateSearch(params: GQSearch): string {
@@ -16,12 +17,17 @@ function translateSearch(params: GQSearch): string {
   return `(${searchStr.join(',')})`;
 }
 
+function translateAlias(alias: string | undefined, query: string): string {
+  if (alias === undefined) return query;
+  else return `${alias}: ${query}`;
+}
+
 function translateNode(node: GQNode | string): string {
   if (typeof node === 'string')
     return node;
   // no children means no search or on
   else if (node.children === undefined || node.children.length === 0)
-    return node.name;
+    return translateAlias(node.alias, node.name);
 
   let query: string[] = [node.name];
   if (node.search !== undefined)
@@ -39,7 +45,7 @@ function translateNode(node: GQNode | string): string {
   else {
     query = query.concat(['{','...', 'on', node.on, '{', fieldStr, '} }']);
   }
-  return query.join(' ');
+  return translateAlias(node.alias, query.join(' '));
 }
 
 export default function buildQuery(nodes: Array<GQNode> | GQNode): string {

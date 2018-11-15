@@ -1,6 +1,6 @@
 import { graphqlApi } from '@/apis/graphql';
 import { GQNode } from '@/apis/query-builder';
-import { buildUserGQNode } from '@/apis/graphql/queries/user';
+import { buildUserGQNode } from '@/apis/queries/user';
 import { IPerson, Person } from '@/models/person';
 import { save, load } from '@/utils/ssr-helper';
 

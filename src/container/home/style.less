@@ -1,6 +1,5 @@
 .container {
-  flex: 1;
-  height: 100vh;
+  display: block;
 }
 
 .header {
@@ -9,24 +8,12 @@
   color: white;
   padding-left: 30px;
   box-shadow: 5px 0 10px 0 #2F407F;
-
-  & > .top {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    line-height: 60px;
-
-    & > .icon {
-      font-size: 20px;
-      font-weight: 600;
-      margin: 20px;
-    }
-  }
-  & > .header-title {
+  
+  & > .title {
     margin-top: 60px;
     white-space: nowrap;
   }
-  & > .header-sub-title {
+  & > .sub-title {
     font-weight: normal;
     white-space: nowrap;
     color: #EAEAEA;

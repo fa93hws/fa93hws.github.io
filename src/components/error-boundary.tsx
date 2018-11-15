@@ -11,8 +11,16 @@ export default class ErrorBoundary extends React.Component<{}, IState> {
   }
 
   static getDerivedStateFromError(error: any) {
-    console.log(error);
     return { hasError: true };
+  }
+
+  componentDidCatch(error: any, info: any) {
+    if (Array.isArray(error)) {
+      for (let i = 0; i < error.length; i ++)
+        if ('type' in error[i] && error[i].type === 'NOT_FOUND')
+          return window.location.replace('/404');
+    }
+    // console.log(error, info);
   }
 
   render() {

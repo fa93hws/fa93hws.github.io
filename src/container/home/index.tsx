@@ -7,7 +7,7 @@ import { IPageable } from '@/models/pageable';
 import { ILabelModel } from '@/models/label';
 import ErrorBoundary from '@/components/error-boundary';
 import Label from '@/components/label';
-import icons from '@/assets/styles/icon-font.css';
+import TopNav from '@/components/top-bar';
 import dataResolver from './api';
 import styles from './style.less';
 import PageLoading from '../page-loading';
@@ -53,33 +53,29 @@ function Home({ data }: { data: IPageable<IBlog>}) {
   return (
     <React.Fragment>
       <header className={styles.header}>
-        <div className={styles.top}>
-          <i className={icons.iconShare2 + ' ' + styles.icon} />
-        </div>
-        <h1 className={styles.headerTitle}>
+        <TopNav title="夏目天子的博客" />
+        <h1 className={styles.title}>
           兴趣使然的博客
         </h1>
-        <h4 className={styles.headerSubTitle}>
+        <h4 className={styles.subTitle}>
           白嫖使我快乐
         </h4>
       </header>
-      <main className={styles.body}>
-        <ul>
-        {
-          data.contents.map((blog) => (
-            <BlogCard blog={blog} key={blog.number} />
-          ))
-        }
-        </ul>
-      </main>
+      <ul className={styles.body}>
+      {
+        data.contents.map((blog) => (
+          <BlogCard blog={blog} key={blog.number} />
+        ))
+      }
+      </ul>
     </React.Fragment>
   );
 }
 
-const Fetcher = lazyComponentFactory<IPageable<IBlog>>(dataResolver, Home);
+const Fetcher = lazyComponentFactory(dataResolver, Home);
 
 const Wrapper = () => (
-  <main className={`main__container ${styles.container}`}>
+  <main className={[styles.container, "main__container"].join(' ')}>
     <ErrorBoundary>
       <Suspense fallback={<PageLoading />}>
         <Fetcher />
