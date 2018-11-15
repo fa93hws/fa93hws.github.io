@@ -60,7 +60,7 @@ function Home({ data }: { data: IPageable<IBlog>}) {
           兴趣使然的博客
         </h1>
         <h4 className={styles.headerSubTitle}>
-          人生的追求就是白嫖 Github
+          白嫖使我快乐
         </h4>
       </header>
       <main className={styles.body}>
