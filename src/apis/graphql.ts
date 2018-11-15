@@ -17,8 +17,10 @@ class GQCacheManager {
 
   private _cache: { [idx: number]: cache } = {};
   public changePending(idx: number, val: boolean) {
-    if (this._cache[idx] === undefined)
+    if (this._cache[idx] === undefined) {
+      this._requestIdx ++;
       this._cache[idx] = { pendingFlag: val };
+    }
     else
       this._cache[idx].pendingFlag = val;
   }
@@ -68,7 +70,6 @@ export default class GraphqlApi {
     // request has been sent, wait for the response
     if (this.cache.isPending(requestIdx))
       return this.wait(requestIdx, data => {
-        console.log('data', data)
         if ('errors' in data)
           reject(data);
         else
@@ -81,7 +82,6 @@ export default class GraphqlApi {
     this.cache.changePending(requestIdx, true);
 
     this.axiosInstance.post('', { query }).then(res => {
-      console.log(res);
       this.cache.setCache(requestIdx, res.data.data);
       if ('errors' in res.data)
         reject(res.data.errors);
@@ -92,7 +92,7 @@ export default class GraphqlApi {
 
   public post = <T>(queryNodes: GQNode) => new Promise<T>((resolve, reject) => {
     this.pendingQueries.push(queryNodes);
-    const requestIdx = this.cache.requestIdx + 1;
+    const requestIdx = this.cache.requestIdx;
     const varName = queryNodes.name;
     setTimeout(() => {
       this.submit(requestIdx).then((res: any) => {
