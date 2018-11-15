@@ -1,4 +1,4 @@
-import { GQNode } from "@/utils/graphql/query-builder";
+import { GQNode } from "@/apis/query-builder";
 import { UserFieldsType } from "./user";
 
 export function buildIssuesGQNode(labels: string[], limit: number, nodes: Array<GQNode | string>): GQNode {

@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise } from 'axios';
-import buildQuery, { GQNode } from '@/utils/graphql/query-builder';
+
 import bindthis from '@/utils/decorators/bindthis';
+import buildQuery, { GQNode } from './query-builder';
 
 interface cache {
   // is the request sent and waiting for response
@@ -38,7 +39,7 @@ class GQCacheManager {
 
 }
 
-export default class BaseGraphqlApi {
+export default class GraphqlApi {
   private axiosInstance: AxiosInstance;
   // when an query is about to sent, it will be push into the queue and send to the server
   // after 100ms together with other queries in the queue.
@@ -92,4 +93,4 @@ export default class BaseGraphqlApi {
   })
 }
 
-export const baseApi = new BaseGraphqlApi();
+export const graphqlApi = new GraphqlApi();

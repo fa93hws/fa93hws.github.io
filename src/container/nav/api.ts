@@ -1,6 +1,6 @@
-import { baseApi } from '@/apis/base-graphql';
+import { graphqlApi } from '@/apis/graphql';
+import { GQNode } from '@/apis/query-builder';
 import { buildUserGQNode } from '@/apis/graphql/queries/user';
-import { GQNode } from '@/utils/graphql/query-builder';
 import { IPerson, Person } from '@/models/person';
 import { save, load } from '@/utils/ssr-helper';
 
@@ -10,7 +10,7 @@ const dataResolver: Promise<IPerson> = new Promise((resolve, reject) => {
   const cache = load('author');
   if (cache !== undefined)
     return resolve(cache);
-  baseApi.post<IPerson>(gqNode).then(user => {
+    graphqlApi.post<IPerson>(gqNode).then(user => {
     const author = new Person(user);
     save(author, 'author');
     resolve(author);

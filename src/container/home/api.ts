@@ -1,6 +1,10 @@
-import { baseApi } from '@/apis/base-graphql';
-import { buildIssuesGQNode, buildAuthorGQNode, buildLabelGQNode } from '@/apis/graphql/queries/blogs';
-import { GQNode } from '@/utils/graphql/query-builder';
+import { graphqlApi } from '@/apis/graphql';
+import { 
+  buildIssuesGQNode,
+  buildAuthorGQNode,
+  buildLabelGQNode
+} from '@/apis/graphql/queries/blogs';
+import { GQNode } from '@/apis/query-builder';
 import { save, load } from '@/utils/ssr-helper';
 import { IPageable } from '@/models/pageable';
 import { IBlog } from '@/models/blog';
@@ -20,7 +24,7 @@ const dataResolver: Promise<IPageable<IBlog>> = new Promise((resolve, reject) =>
   const cache = load<IPageable<IBlog>>('blogList');
   if (cache !== undefined)
     return resolve(cache);
-  baseApi.post<IRawRepository>(queryNode).then(raw => {
+    graphqlApi.post<IRawRepository>(queryNode).then(raw => {
     const repository = new Repository();
     repository.parseGQResponse(raw);
     save(repository.blogs, 'blogList');
