@@ -23,7 +23,7 @@ function calculateTextColor(hex: string) {
   return o > 125 ? 'black' : 'white';
 }
 
-const Label = ({ label }: { label: ILabelModel }) => (
+export const Label = ({ label }: { label: ILabelModel }) => (
   <Link to={`/label/${label.name}`} className="db">
     <p
       className="lt-label__wrapper"
@@ -37,4 +37,16 @@ const Label = ({ label }: { label: ILabelModel }) => (
   </Link>
 );
 
-export default Label;
+export const LabelSection = ({ labels }: { labels: ILabelModel[] }) => (
+  <section className="lt-label__section">
+    <ul className="lt-label__list">
+    {
+      labels.map(l => (
+        <li className="lt-label__list-item" key={l.name}>
+          <Label label={l} />
+        </li>
+      ))
+    }
+    </ul>
+  </section>
+);

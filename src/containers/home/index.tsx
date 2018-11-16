@@ -4,27 +4,12 @@ import { Link } from 'react-router-dom';
 import lazyComponentFactory from '@/utils/lazy-comp';
 import { IBlog } from '@/models/blog';
 import { IPageable } from '@/models/pageable';
-import { ILabelModel } from '@/models/label';
 import ErrorBoundary from '@/components/error-boundary';
-import Label from '@/components/label';
+import { LabelSection } from '@/components/label';
 import TopNav from '@/components/top-bar';
 import dataResolver from './api';
 import styles from './style.less';
 import PageLoading from '../page-loading';
-
-const BlogLabels = ({ labels }: { labels: ILabelModel[] }) => (
-  <section className={styles.labelSection}>
-    <ul className={styles.labelList}>
-    {
-      labels.map(l => (
-        <li className={styles.labelItem} key={l.name}>
-          <Label label={l} />
-        </li>
-      ))
-    }
-    </ul>
-  </section>
-);
 
 const BlogCard = ({ blog }: { blog: IBlog }) => (
   <li className={styles.blogItem}>
@@ -43,7 +28,7 @@ const BlogCard = ({ blog }: { blog: IBlog }) => (
     </article>
     {
       blog.labels.length > 0 ?
-      <BlogLabels labels={blog.labels} /> :
+      <LabelSection labels={blog.labels} /> :
       null
     }
   </li>
@@ -51,24 +36,13 @@ const BlogCard = ({ blog }: { blog: IBlog }) => (
 
 function Home({ data }: { data: IPageable<IBlog>}) {
   return (
-    <React.Fragment>
-      <header className={styles.header}>
-        <TopNav title="夏目天子的博客" />
-        <h1 className={styles.title}>
-          兴趣使然的博客
-        </h1>
-        <h4 className={styles.subTitle}>
-          白嫖使我快乐
-        </h4>
-      </header>
-      <ul className={styles.body}>
-      {
-        data.contents.map((blog) => (
-          <BlogCard blog={blog} key={blog.number} />
-        ))
-      }
-      </ul>
-    </React.Fragment>
+    <ul className={styles.body}>
+    {
+      data.contents.map((blog) => (
+        <BlogCard blog={blog} key={blog.number} />
+      ))
+    }
+    </ul>
   );
 }
 
@@ -76,6 +50,15 @@ const Fetcher = lazyComponentFactory(dataResolver, Home);
 
 const Wrapper = () => (
   <main className={[styles.container, "main__container"].join(' ')}>
+    <header className="global__header">
+      <TopNav title="夏目天子的博客" />
+      <h1 className={styles.title}>
+        兴趣使然的博客
+      </h1>
+      <h4 className={styles.subTitle}>
+        白嫖使我快乐
+      </h4>
+    </header>
     <ErrorBoundary>
       <Suspense fallback={<PageLoading />}>
         <Fetcher />

@@ -22,7 +22,7 @@ const dataResolverBuilder = (blogId: number) => new Promise((resolve, reject) =>
     const blog = new BlogModel();
     blog.parseGQResponse((<any>res).issue)
     blog.content = (<any>res).blog.text
-    resolve(res);
+    resolve(blog);
   }).catch(reject);
 });
 export default dataResolverBuilder;

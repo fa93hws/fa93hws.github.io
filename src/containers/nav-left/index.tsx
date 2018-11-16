@@ -5,9 +5,6 @@ import lazyComponentFactory from '@/utils/lazy-comp';
 import useSubscription from '@/utils/hooks/channel';
 import icons from '@/assets/styles/icon-font.css';
 import { IPerson } from '@/models/person';
-import ErrorBoundary from '@/components/error-boundary';
-import { LoadingSpinner } from '@/container/page-loading';
-import dataResolver from './api';
 import styles from './style.less';
 
 
@@ -58,32 +55,7 @@ function NavItem({ to , field }: { to: string, field: string }) {
   );
 }
 
-function LeftNav({ data }: { data: IPerson }) {
-  return (
-    <React.Fragment>
-      <div className={styles.author}>
-        <Link to='/' className="db">
-          <img className={styles.avatar} src={data.avatarUrl}/>
-        </Link>
-        <p className={styles.name}>{data.name}</p>
-        <p className={styles.email}>{data.email}</p>
-      </div>
-      <nav className={styles.nav}>
-        <ul>
-          <NavItem field="home" to="/" />
-          <NavItem field="archives" to="/" />
-          <NavItem field="tags" to="/" />
-          <NavItem field="github" to={data.url} />
-          <NavItem field="weibo" to="https://www.weibo.com/hinanawi" />
-        </ul>
-      </nav>
-    </React.Fragment>
-  );
-}
-
-const Fetcher = lazyComponentFactory(dataResolver, LeftNav);
-
-function Wrapper() {
+export default function LeftNav() {
   const [isShown, setIsShown] = useState(true);
   useSubscription('left-nav-change', setIsShown);
 
@@ -96,12 +68,22 @@ function Wrapper() {
 
   return (
     <aside className={wrapperClassName}>
-      <ErrorBoundary>
-        <Suspense fallback={<LoadingSpinner />}>
-          <Fetcher />
-        </Suspense>
-      </ErrorBoundary>
+      <div className={styles.author}>
+        <Link to='/' className="db">
+          <img className={styles.avatar} src="https://avatars0.githubusercontent.com/u/10626756?v=4"/>
+        </Link>
+        <p className={styles.name}>夏目天子</p>
+        <p className={styles.email}>wjun0912@gmail.com</p>
+      </div>
+      <nav className={styles.nav}>
+        <ul>
+          <NavItem field="home" to="/" />
+          <NavItem field="archives" to="/" />
+          <NavItem field="tags" to="/" />
+          <NavItem field="github" to="https://github.com/fa93hws" />
+          <NavItem field="weibo" to="https://www.weibo.com/hinanawi" />
+        </ul>
+      </nav>
     </aside>
   );
 }
-export default Wrapper;
