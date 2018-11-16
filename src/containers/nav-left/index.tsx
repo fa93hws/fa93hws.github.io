@@ -1,10 +1,9 @@
-import React, { Suspense, useState, useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
-import lazyComponentFactory from '@/utils/lazy-comp';
-import useSubscription from '@/utils/hooks/channel';
 import icons from '@/assets/styles/icon-font.css';
-import { IPerson } from '@/models/person';
+import { leftNavStore } from '@/store';
 import styles from './style.less';
 
 
@@ -15,21 +14,6 @@ const iconNameDict: any = {
   'github': icons.iconGithub,
   'weibo': icons.iconSinaWeibo
 }
-
-// const SwitcherIcon = ({
-//   handleToggle,
-//   isShown
-// }: {
-//   handleToggle: () => void,
-//   isShown: boolean
-// }) => (
-//   <div
-//     className={`${styles.theSwitch} ${isShown ? '' : styles.off}`}
-//     onClick={handleToggle}
-//   >
-//     <i className={isShown ? icons.iconCross : icons.iconMenu} />
-//   </div>
-// );
 
 function NavItem({ to , field }: { to: string, field: string }) {
   const name = field[0].toUpperCase() + field.slice(1);
@@ -55,19 +39,15 @@ function NavItem({ to , field }: { to: string, field: string }) {
   );
 }
 
-export default function LeftNav() {
-  const [isShown, setIsShown] = useState(true);
-  useSubscription('left-nav-change', setIsShown);
+function LeftNav() {
+  const { isShown } = leftNavStore;
 
-  const wrapperClassName = useMemo(() => {
-    let className = styles.left;
-    if (!isShown)
-      className += ' ' + styles.close;
-    return className;
-  }, [isShown]);
+  let wrapperClass = styles.left;
+  if (!isShown)
+    wrapperClass += ' ' + styles.close;
 
   return (
-    <aside className={wrapperClassName}>
+    <aside className={wrapperClass}>
       <div className={styles.author}>
         <Link to='/' className="db">
           <img className={styles.avatar} src="https://avatars0.githubusercontent.com/u/10626756?v=4"/>
@@ -87,3 +67,5 @@ export default function LeftNav() {
     </aside>
   );
 }
+
+export default observer(LeftNav);

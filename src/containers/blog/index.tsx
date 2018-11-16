@@ -58,7 +58,7 @@ export default function Wrapper(props: RouteComponentProps<IMatchProps>) {
   return (
     <main className="main__container">
       <header className="global__header">
-        <TopBar title="夏目天子的博客" />
+        <TopBar />
       </header>
       <ErrorBoundary>
         <Suspense fallback={<PageLoading />}>

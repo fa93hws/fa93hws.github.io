@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { observer } from 'mobx-react';
 
 import icons from '@/assets/styles/icon-font.css';
+import { leftNavStore } from '@/store';
 import styles from './style.less';
-import useSubscription, { channel } from '@/utils/hooks/channel';
 
-export default function TopNav({ title }: { title: string; }) {
-  const [isLeftNavShown, setIsLeftNavShown] = useState(true);
-  useSubscription('left-nav-change', setIsLeftNavShown);
+function TopNav() {
+  const { isShown: isLeftNavShown, toggleShown } = leftNavStore;
 
   const leftIconClasses = [styles.icon, styles.iconLeft];
   if (isLeftNavShown)
@@ -14,14 +14,12 @@ export default function TopNav({ title }: { title: string; }) {
   else
     leftIconClasses.push(icons.iconMenu);
 
-  function handleToggle() {
-    channel.publish('left-nav-change', !isLeftNavShown);
-  }
-
   return (
     <div className={styles.top}>
-      <i className={leftIconClasses.join(' ')} onClick={handleToggle}/>
+      <i className={leftIconClasses.join(' ')} onClick={toggleShown}/>
       <i className={[icons.iconShare2, styles.icon, styles.iconShare].join(' ')} />
     </div>
   );
 }
+
+export default observer(TopNav);

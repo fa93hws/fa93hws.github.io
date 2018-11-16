@@ -1,6 +1,6 @@
 import bindthis from '@/utils/decorators/bindthis';
 
-export type EventNamesType = 'left-nav-change';
+export type EventNamesType = 'left-nav-change' | 'top-nav-title-change';
 export type CallBackType = (...args: any[]) => any;
 
 export default class MessageChannel {

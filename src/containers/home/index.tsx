@@ -51,7 +51,7 @@ const Fetcher = lazyComponentFactory(dataResolver, Home);
 const Wrapper = () => (
   <main className={[styles.container, "main__container"].join(' ')}>
     <header className="global__header">
-      <TopNav title="夏目天子的博客" />
+      <TopNav />
       <h1 className={styles.title}>
         兴趣使然的博客
       </h1>

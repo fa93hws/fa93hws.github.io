@@ -23,7 +23,7 @@ module.exports = merge(config, {
     splitChunks: {
       cacheGroups: {
         vendors: {
-          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|history|axios)[\\/]/,
+          test:  /node_modules/,
           name: 'vendors',
           chunks: 'all'
         }
