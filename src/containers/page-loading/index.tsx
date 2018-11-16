@@ -7,7 +7,7 @@ interface IPageLoadingProps {
   className?: string;
 }
 export const LoadingSpinner = (props: IPageLoadingProps) => (
-  <div className={styles.loading + ' ' + props.className}>
+  <div className={[styles.loading, props.className].join(' ')}>
     <BaseLoading />
   </div>
 );

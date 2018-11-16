@@ -1,3 +1,6 @@
+@import '../../assets/styles/size.less';
+@import '../../assets/styles/colors.less';
+
 .article {
   font-size: 16px;
   width: 740px;
@@ -5,7 +8,7 @@
   background: white;
   padding: 40px 30px;
   border-radius: 8px;
-  box-shadow: 0 0 20px 0 rgba(40, 38, 44, 0.25);
+  box-shadow: 0 0 20px 0 @color--box-shadow;
   transition: transform 0.5s;
 
   &.loaded {
@@ -18,11 +21,11 @@
 
   & > .title {
     font-size: 34px;
-    margin-bottom: 0.5em;
+    margin: 0 0 0.5em;
   }
   & > .time {
     display: block;
-    color: #727272;
+    color: @color--grey;
   }
 }
 

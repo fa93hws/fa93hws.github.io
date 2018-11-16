@@ -5,7 +5,7 @@ class TopBarStore {
 }
 
 class LeftNavStore {
-  @observable public isShown: boolean = false;
+  @observable public isShown: boolean = true;
   @action.bound public toggleShown() {
     this.isShown = !this.isShown;
   }

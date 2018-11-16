@@ -6,7 +6,7 @@ import { IBlog } from '@/models/blog';
 import { IPageable } from '@/models/pageable';
 import ErrorBoundary from '@/components/error-boundary';
 import { LabelSection } from '@/components/label';
-import TopNav from '@/components/top-bar';
+import TopNav from '@/containers/top-bar';
 import dataResolver from './api';
 import styles from './style.less';
 import PageLoading from '../page-loading';
@@ -49,9 +49,8 @@ function Home({ data }: { data: IPageable<IBlog>}) {
 const Fetcher = lazyComponentFactory(dataResolver, Home);
 
 const Wrapper = () => (
-  <main className={[styles.container, "main__container"].join(' ')}>
+  <main className={styles.container}>
     <header className="global__header">
-      <TopNav />
       <h1 className={styles.title}>
         兴趣使然的博客
       </h1>

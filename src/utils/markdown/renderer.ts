@@ -7,7 +7,9 @@ export function render (plainText: string): string {
     html: true,
   });
   md.use(MarkdownKatex,{"throwOnError" : false, "errorColor" : " #cc0000"});
+  // console.log(plainText);
   const htmlElement: string = md.render(plainText);
+  // console.log(htmlElement);
   // preview.innerHTML = htmlElement;
   return htmlElement;
 }

@@ -1,0 +1,31 @@
+@import '../../assets/styles/size.less';
+@import '../../assets/styles/colors.less';
+
+.top {
+  display: flex;
+  position: fixed;
+  top: 0;
+  align-items: center;
+  line-height: @top-bar-height;
+  background: @color--blue;
+  color: @color--white;
+  width: calc(100vw - @left-nav-width);
+  z-index: 100;
+  transition: width 0.5s;
+
+  &.with-shadow {
+    box-shadow: 0 0 20px 0 @color--box-shadow;
+  }
+  &.expand {
+    width: 100vw;
+  }
+
+  & > .icon {
+    font-size: 20px;
+    margin: 20px;
+    cursor: pointer;
+  }
+  & > .icon--share {
+    margin-left: auto;
+  }
+}

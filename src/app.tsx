@@ -1,13 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import 'normalize.css';
 
 import LeftNav from './containers/nav-left';
+import TopBar from './containers/top-bar';
 import PageLoading from './containers/page-loading';
 import NotFound from './containers/not-found';
 import './assets/styles/site.less';
 import './assets/styles/icon-font.css';
+
 
 const HomePage = Loadable({
   loader: () => import(/* webpackChunkName: "home" */'./containers/home'),
@@ -20,28 +22,21 @@ const BlogPage = Loadable({
 
 
 export default function App() {
-  // const [isLeftNavShown, setIsLeftNavShown] = useState(true);
-
-  // function toggleLeftNavShown() {
-  //   setIsLeftNavShown(!isLeftNavShown);
-  // }
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
   return (
     <Fragment>
       <LeftNav />
-      {/* <div className="main__container"> */}
-        {/* <TopNav
-          isLeftNavShown={isLeftNavShown}
-          handleToggle={toggleLeftNavShown}
-          title="123"
-        /> */}
+      <div className="main__container">
+        <TopBar />
         <Switch>
           <Route path="/" exact={true} component={HomePage} />
           <Route path="/blog/:blogId" exact={true} component={BlogPage} />
           <Route path="/404" component={NotFound} />
           <Redirect to="/404" />
         </Switch>
-      {/* </div> */}
+      </div>
     </Fragment>
   );
 }

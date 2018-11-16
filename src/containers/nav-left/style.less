@@ -1,8 +1,11 @@
+@import '../../assets/styles/size.less';
+@import '../../assets/styles/colors.less';
+
 .left {
-  position: relative;
+  position: fixed;
   z-index: 10;
   overflow: hidden;
-  width: 240px;
+  width: @left-nav-width;
   min-height: 100vh;
   flex-shrink: 0;
   display: flex;
@@ -18,13 +21,13 @@
 .loading {
   position: relative;
   align-self: center;
-  border-right: 1px solid rgba(40, 38, 44, 0.25);
+  border-right: 1px solid @color--box-shadow;
 }
 
 .author {
   position: relative;
   z-index: 5;
-  background: #6AA1C9;
+  background: @color--light-blue;
   padding: 40px 0 40px 20px;
   flex-shrink: 0;
 
@@ -36,7 +39,7 @@
   .name {
     white-space: nowrap;
     margin-top: 1em;
-    color: #F9FEFF;
+    color: @color--white;
   }
   .email {
     white-space: nowrap;
@@ -53,20 +56,9 @@
   font-size: 18px;
   padding-top: 10px;
   box-sizing: border-box;
-  border-right: 1px solid rgba(40, 38, 44, 0.25);
-  box-shadow: 0 0 10px 0 rgba(40, 38, 44, 0.25);
+  border-right: 1px solid @color--box-shadow;
+  box-shadow: 0 0 10px 0 @color--box-shadow;
   overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    appearance: none;
-    height: 8px;
-    width: 8px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #B6B6B6;
-    border: 1px solid white;
-    border-radius: 10px;
-  }
 
   .nav-list-item {
     display: block;

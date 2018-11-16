@@ -1,22 +1,30 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
-import mdStyles from '@/assets/styles/github-markdown.less';
+
 
 import PageLoading from '@/containers/page-loading';
+import TopBar from '@/containers/top-bar';
 import ErrorBoundary from '@/components/error-boundary';
-import TopBar from '@/components/top-bar';
+import { LabelSection } from '@/components/label';
 import lazyComponentFactory from '@/utils/lazy-comp';
 import { render } from '@/utils/markdown/renderer';
 import { IBlog } from '@/models/blog';
+import mdStyles from '@/assets/styles/github-markdown.less';
 import dataResolverBuilder from './api';
 import styles from './style.less';
-import { LabelSection } from '@/components/label';
 
 function BlogsPage({ data: blog }: { data: IBlog }) {
   const [wrapperClass, setWrapperClass] = useState(styles.article);
 
   useEffect(() => {
     setWrapperClass([styles.article, styles.loaded].join(' '));
+  }, [])
+
+  useEffect(() => {
+    const linkElement = document.createElement('link');
+    linkElement.rel="stylesheet";
+    linkElement.href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"
+    document.getElementsByTagName('head')[0].append(linkElement);
   }, [])
 
   return (
@@ -56,10 +64,8 @@ export default function Wrapper(props: RouteComponentProps<IMatchProps>) {
   const Fetcher = lazyComponentFactory(dataResolver, BlogsPage);
 
   return (
-    <main className="main__container">
-      <header className="global__header">
-        <TopBar />
-      </header>
+    <main>
+      <header className="global__header" />
       <ErrorBoundary>
         <Suspense fallback={<PageLoading />}>
           <Fetcher />
