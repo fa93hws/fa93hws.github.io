@@ -1,27 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
+import { useIsLeftNavShown } from '@/containers/nav-left/is-shown';
 import icons from '@/assets/styles/icon-font.css';
+import { useResize, useScroll } from '@/utils/hooks/dom-listener';
 import styles from './style.less';
-import { withRouter, RouteComponentProps } from 'react-router';
-import { useIsLeftNavShown } from '../nav-left/is-shown';
+import { useTopBarTitle } from './use-title';
 
-function TopNav(props: RouteComponentProps) {
+export default function TopNav() {
+  // when vertical scroll bar appear, the right icon need larger margin-right
   const [hasVBar, setHasVBar] = useState(false);
+  // when title is shown, display the box shadow as well
+  const [titleShown, setTitleShown] = useState(false);
+  const [title, setTitle] = useTopBarTitle();
   const [isLeftNavShown, setIsLeftNavShown] = useIsLeftNavShown();
 
-  useEffect(() => {
-    if (props.location.pathname.slice(5) === '/blog')
-      setIsLeftNavShown(false);
-  }, [props.location.pathname])
+  useResize(() => {
+    const html = document.getElementsByTagName('html')[0];
+    setHasVBar(html.scrollHeight > html.clientHeight);
+  });
 
+  useScroll(() => {
+    setTitleShown(window.scrollY > 90);
+  });
+
+  // right icon class
+  let rightIconClass = [icons.iconShare2, styles.icon, styles.iconShare].join(' ');
+  if (hasVBar)
+    rightIconClass += ' ' + styles.vBarAppear;
+
+  // left icon class
   let leftIconClass = styles.icon;
   if (isLeftNavShown)
     leftIconClass += ' ' + icons.iconCross;
   else
     leftIconClass += ' ' + icons.iconMenu
 
+  // wrapper class
   let wrapperClass = styles.top;
-  wrapperClass += ' ' + styles.withShadow;
+  if (titleShown)
+    wrapperClass += ' ' + styles.showTitle;
 
   return (
     <div className={wrapperClass}>
@@ -29,9 +46,10 @@ function TopNav(props: RouteComponentProps) {
         className={leftIconClass}
         onClick={() => setIsLeftNavShown(!isLeftNavShown)}
       />
-      <i className={[icons.iconShare2, styles.icon, styles.iconShare].join(' ')} />
+      <h4 className={styles.title}>
+        {title}
+      </h4>
+      <i className={rightIconClass} />
     </div>
   );
 }
-
-export default withRouter(TopNav);

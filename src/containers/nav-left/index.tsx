@@ -44,6 +44,7 @@ export default function LeftNav() {
   let wrapperClass = styles.left;
   if (!isLeftNavShown)
     wrapperClass += ' ' + styles.close;
+    
   return (
     <aside className={wrapperClass}>
       <div className={styles.author}>

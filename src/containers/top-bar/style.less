@@ -19,8 +19,19 @@
   z-index: 100;
   transition: width 0.5s;
 
-  &.with-shadow {
-    box-shadow: 0 0 20px 0 @color--box-shadow;
+  &.show-title {
+    box-shadow: 0 0 20px 5px @color--box-shadow;
+  }
+
+  & > .title {
+    margin: 0 auto;
+    font-size: 20px;
+    line-height: 60px;
+    justify-self: center;
+    visibility: hidden;
+  }
+  &.show-title > .title {
+    visibility: visible;
   }
 
   & > .icon {
@@ -28,7 +39,11 @@
     margin: 20px;
     cursor: pointer;
   }
+  
   & > .icon--share {
-    margin-left: auto;
+    cursor: not-allowed;
+    &.v-bar-appear {
+      margin-right: 35px;
+    }
   }
 }
