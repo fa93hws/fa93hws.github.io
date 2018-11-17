@@ -23,7 +23,7 @@ module.exports = merge(config, {
     splitChunks: {
       cacheGroups: {
         vendors: {
-          test:  /node_modules/,
+          test:  /node_modules\/(?!markdown-it|katex|mdurl|entities|linkify-it)/,
           name: 'vendors',
           chunks: 'all'
         }

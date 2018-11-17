@@ -16,14 +16,14 @@ const BlogsPage =  function({ data: blog }: { data: IBlog }) {
 
   useEffect(() => {
     setWrapperClass([styles.article, styles.loaded].join(' '));
-  }, [])
+  }, []);
 
   useEffect(() => {
     const linkElement = document.createElement('link');
     linkElement.rel="stylesheet";
     linkElement.href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"
     document.getElementsByTagName('head')[0].append(linkElement);
-  }, [])
+  }, []);
 
   return (
     <article className={wrapperClass}>
@@ -78,5 +78,4 @@ export default class Wrapper extends React.Component<RouteComponentProps<IMatchP
       </main>
     )
   }
-
 };

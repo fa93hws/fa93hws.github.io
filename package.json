@@ -28,8 +28,6 @@
     "markdown-it": "^8.4.2",
     "markdown-it-katex": "^2.0.3",
     "mini-css-extract-plugin": "^0.4.4",
-    "mobx": "^5.6.0",
-    "mobx-react": "^5.3.6",
     "normalize.css": "^8.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",

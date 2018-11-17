@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { observer } from 'mobx-react';
 
 import icons from '@/assets/styles/icon-font.css';
-import { leftNavStore } from '@/store';
 import styles from './style.less';
+import { useIsLeftNavShown } from './is-shown';
 
 
 const iconNameDict: any = {
@@ -13,7 +12,7 @@ const iconNameDict: any = {
   'tags': icons.iconPriceTags,
   'github': icons.iconGithub,
   'weibo': icons.iconSinaWeibo
-}
+};
 
 function NavItem({ to , field }: { to: string, field: string }) {
   const name = field[0].toUpperCase() + field.slice(1);
@@ -39,13 +38,12 @@ function NavItem({ to , field }: { to: string, field: string }) {
   );
 }
 
-function LeftNav() {
-  const { isShown } = leftNavStore;
+export default function LeftNav() {
+  const [isLeftNavShown] = useIsLeftNavShown();
 
   let wrapperClass = styles.left;
-  if (!isShown)
+  if (!isLeftNavShown)
     wrapperClass += ' ' + styles.close;
-
   return (
     <aside className={wrapperClass}>
       <div className={styles.author}>
@@ -67,5 +65,3 @@ function LeftNav() {
     </aside>
   );
 }
-
-export default observer(LeftNav);
