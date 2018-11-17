@@ -1,13 +1,24 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { observer, Observer } from 'mobx-react';
 
 import icons from '@/assets/styles/icon-font.css';
 import { leftNavStore } from '@/store';
 import styles from './style.less';
 import { withRouter, RouteComponentProps } from 'react-router';
 
-@observer
-class TopNav extends React.Component<RouteComponentProps> {
+interface IState {
+  hasVScrollBar: boolean;
+}
+
+
+class TopNav extends React.Component<RouteComponentProps, IState> {
+  constructor(props: RouteComponentProps) {
+    super(props);
+    this.state = {
+      hasVScrollBar: false
+    }
+  }
+
   public componentDidUpdate(oldProps: RouteComponentProps) {
     const newPath = this.props.location.pathname;
     const oldPath = oldProps.location.pathname;
@@ -37,10 +48,17 @@ class TopNav extends React.Component<RouteComponentProps> {
   public render() {
     const { toggleShown } = leftNavStore;
     return (
-      <div className={this.wrapperClass}>
-        <i className={this.leftIconClass} onClick={toggleShown}/>
-        <i className={[icons.iconShare2, styles.icon, styles.iconShare].join(' ')} />
-      </div>
+      <Observer>
+      {
+        () => (
+          <div className={this.wrapperClass}>
+            <i className={this.leftIconClass} onClick={toggleShown}/>
+            <i className={[icons.iconShare2, styles.icon, styles.iconShare].join(' ')} />
+          </div>
+        )
+      }
+      </Observer>
+
     );
   }
 }
