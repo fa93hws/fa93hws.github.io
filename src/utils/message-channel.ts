@@ -16,12 +16,10 @@ export default class MessageChannel {
     if (this.events[eventName] === undefined)
       this.events[eventName] = [];
     this.events[eventName].push(callback);
-    console.log(`number of subscriber = ${this.events[eventName].length}`)
   }
 
   @bindthis public unsubscribe(eventName: string, callback: CallBackType) {
     if (this.events[eventName] === undefined) return;
     this.events[eventName] = this.events[eventName].filter(c => c !== callback);
-    console.log(`number of subscriber = ${this.events[eventName].length}`)
   }
 }

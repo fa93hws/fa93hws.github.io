@@ -20,7 +20,11 @@ export function buildIssuesGQNode(labels: string[], limit: number, children: Arr
     name: 'issues',
     search: {
       labels,
-      first: limit
+      first: limit,
+      orderBy: {
+        content: "{ field: CREATED_AT, direction: DESC }",
+        appendRaw: true
+      }
     },
     children
   }

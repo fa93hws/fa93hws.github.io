@@ -1,5 +1,10 @@
+export interface GQSearchContent {
+  content: string;
+  // if true, append the string directly instead of doing a JSON.stringify
+  appendRaw: boolean;
+}
 export interface GQSearch {
-  [field: string]: string | number | Array<string|number>;
+  [field: string]: string | number | Array<string|number> | GQSearchContent;
 }
 export interface GQNode {
   name: string;
@@ -12,7 +17,15 @@ export interface GQNode {
 function translateSearch(params: GQSearch): string {
   const searchStr: string[] = [];
   Object.keys(params).forEach(key => {
-    searchStr.push(`${key}: ${JSON.stringify(params[key])}`);
+    if (!Array.isArray(params[key]) && typeof params[key] === 'object') {
+      const value = params[key] as GQSearchContent;
+      if (value.appendRaw)
+        searchStr.push(`${key}: ${value.content}`);
+      else
+        searchStr.push(`${key}: ${JSON.stringify(value.content)}`);
+    }
+    else
+      searchStr.push(`${key}: ${JSON.stringify(params[key])}`);
   });
   return `(${searchStr.join(',')})`;
 }
