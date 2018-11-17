@@ -1,6 +1,12 @@
 @import '../../assets/styles/size.less';
 @import '../../assets/styles/colors.less';
 
+:global(.main__container.expand) {
+  :local(.top) {
+    width: 100vw;
+  }
+}
+
 .top {
   display: flex;
   position: fixed;
@@ -15,9 +21,6 @@
 
   &.with-shadow {
     box-shadow: 0 0 20px 0 @color--box-shadow;
-  }
-  &.expand {
-    width: 100vw;
   }
 
   & > .icon {

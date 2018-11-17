@@ -1,9 +1,7 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 
-
 import PageLoading from '@/containers/page-loading';
-import TopBar from '@/containers/top-bar';
 import ErrorBoundary from '@/components/error-boundary';
 import { LabelSection } from '@/components/label';
 import lazyComponentFactory from '@/utils/lazy-comp';
@@ -13,7 +11,7 @@ import mdStyles from '@/assets/styles/github-markdown.less';
 import dataResolverBuilder from './api';
 import styles from './style.less';
 
-function BlogsPage({ data: blog }: { data: IBlog }) {
+const BlogsPage =  function({ data: blog }: { data: IBlog }) {
   const [wrapperClass, setWrapperClass] = useState(styles.article);
 
   useEffect(() => {
@@ -55,22 +53,30 @@ function isBlogIdValid(id: string) {
 interface IMatchProps {
   blogId: string;
 }
-export default function Wrapper(props: RouteComponentProps<IMatchProps>) {
-  const blogIdStr = props.match.params.blogId;
-  if (!isBlogIdValid(blogIdStr))
-    window.location.replace('/404');
-  const blogId = parseInt(blogIdStr, 10);
-  const dataResolver = dataResolverBuilder(blogId);
-  const Fetcher = lazyComponentFactory(dataResolver, BlogsPage);
+export default class Wrapper extends React.Component<RouteComponentProps<IMatchProps>> {
+  // prevent re-ajax since suspense is used
+  public shouldComponentUpdate(nextProps: RouteComponentProps<IMatchProps>): boolean {
+    return nextProps.location.pathname !== this.props.location.pathname;
+  }
 
-  return (
-    <main>
-      <header className="global__header" />
-      <ErrorBoundary>
-        <Suspense fallback={<PageLoading />}>
-          <Fetcher />
-        </Suspense>
-      </ErrorBoundary>
-    </main>
-  )
-}
+  public render() {
+    const blogIdStr = this.props.match.params.blogId;
+    if (!isBlogIdValid(blogIdStr))
+      window.location.replace('/404');
+    const blogId = parseInt(blogIdStr, 10);
+    const dataResolver = dataResolverBuilder(blogId);
+    const Fetcher = lazyComponentFactory(dataResolver, BlogsPage);
+  
+    return (
+      <main>
+        <header className="global__header" />
+        <ErrorBoundary>
+          <Suspense fallback={<PageLoading />}>
+            <Fetcher />
+          </Suspense>
+        </ErrorBoundary>
+      </main>
+    )
+  }
+
+};

@@ -9,6 +9,7 @@
   color: @color--white;
   box-shadow: 5px 0 10px 0 @color--blue;
 }
+
 :global(.main__container) {
   flex: 1;
   min-height: 100vh;
@@ -16,6 +17,10 @@
   margin: 0 auto;
   background: @color--light-grey;
   padding-left: @left-nav-width;
+  transition: padding 0.5s;
+  &:global(.expand) {
+    padding-left: 0;
+  }
 }
 
 :global(#root) {

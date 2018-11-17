@@ -8,9 +8,9 @@ import { withRouter, RouteComponentProps } from 'react-router';
 
 @observer
 class TopNav extends React.Component<RouteComponentProps> {
-  public componentWillReceiveProps(newProps: RouteComponentProps) {
-    const oldPath = this.props.location.pathname;
-    const newPath = newProps.location.pathname;
+  public componentDidUpdate(oldProps: RouteComponentProps) {
+    const newPath = this.props.location.pathname;
+    const oldPath = oldProps.location.pathname;
     if (
       leftNavStore.isShown === true &&
       oldPath !== newPath &&
@@ -30,8 +30,6 @@ class TopNav extends React.Component<RouteComponentProps> {
   }
   private get wrapperClass() {
     const out = [styles.top];
-    const { isShown } = leftNavStore;
-    if (!isShown) out.push(styles.expand)
     out.push(styles.withShadow);
     return out.join(' ');
   }
