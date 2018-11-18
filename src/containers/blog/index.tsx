@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect, useMemo } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import gistLoader from '@/apis/gist-loader';
@@ -19,7 +19,8 @@ const BlogsPage =  function({ data: blog }: { data: IBlog }) {
   const [wrapperClass, setWrapperClass] = useState(styles.article);
   const [,setIsLeftNavShown] = leftNavStore.useState<Boolean>('display');
   const [,setTitle] = topBarStore.useState<string>('title');
-  // use memo to calculate the HTML string from md body
+  const contentHTML = useMemo(() => render(blog.content), [blog.content])
+  console.log('blog render');
   
   useEffect(() => {
     setTitle(blog.title);
@@ -51,7 +52,7 @@ const BlogsPage =  function({ data: blog }: { data: IBlog }) {
       <section className={['markdown-body', styles.body].join(' ')}
         id="blogBody"
         dangerouslySetInnerHTML={{
-          __html: render(blog.content)
+          __html: contentHTML
         }}
       />
       <LabelSection labels={blog.labels} />

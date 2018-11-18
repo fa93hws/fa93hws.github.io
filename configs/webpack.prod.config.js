@@ -7,9 +7,9 @@ const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 
 const config = require('./webpack.base.config');
+const prerenderRoutes = require('../scripts/prerender-routes');
 
 module.exports = merge(config, {
   output: {
@@ -72,12 +72,12 @@ module.exports = merge(config, {
     new CopyWebpackPlugin(['_config.yml', 'CNAME']),
     new PrerenderSPAPlugin({
       staticDir: path.join(__dirname, '../dist'),
-      routes: ['/', '/404'],
+      routes: prerenderRoutes,
       postProcess (renderedRoute) {
         renderedRoute.route = renderedRoute.originalRoute;
         return renderedRoute;
       },
-      renderer: new Renderer({
+      renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
         renderAfterTime: 5000,
       })
     })
