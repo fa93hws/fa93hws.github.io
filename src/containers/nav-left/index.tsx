@@ -2,11 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import icons from '@/assets/styles/icon-font.css';
+import Store from '@/utils/shared-state';
 import styles from './style.less';
-import { useIsLeftNavShown } from './is-shown';
 
+export const leftNavStore = new Store();
 
-const iconNameDict: any = {
+interface IIconName {
+  home: string;
+  archives: string;
+  tags: string;
+  github: string;
+  weibo: string
+}
+const iconNameDict: IIconName = {
   'home': icons.iconHome3,
   'archives': icons.iconArchive,
   'tags': icons.iconPriceTags,
@@ -14,7 +22,7 @@ const iconNameDict: any = {
   'weibo': icons.iconSinaWeibo
 };
 
-function NavItem({ to , field }: { to: string, field: string }) {
+function NavItem({ to , field }: { to: string, field: keyof IIconName }) {
   const name = field[0].toUpperCase() + field.slice(1);
 
   return (
@@ -39,7 +47,7 @@ function NavItem({ to , field }: { to: string, field: string }) {
 }
 
 export default function LeftNav() {
-  const [isLeftNavShown] = useIsLeftNavShown();
+  const [isLeftNavShown] = leftNavStore.useState('display', true);
 
   let wrapperClass = styles.left;
   if (!isLeftNavShown)

@@ -7,7 +7,7 @@ import LeftNav from './containers/nav-left';
 import TopBar from './containers/top-bar';
 import PageLoading from './containers/page-loading';
 import NotFound from './containers/not-found';
-import { useIsLeftNavShown } from './containers/nav-left/is-shown';
+import { leftNavStore } from './containers/nav-left';
 import './assets/styles/site.less';
 import './assets/styles/icon-font.css';
 
@@ -22,7 +22,7 @@ const BlogPage = Loadable({
 });
 
 function App(props: RouteComponentProps) {
-  const [isLeftNavShown] = useIsLeftNavShown();
+  const [isLeftNavShown] = leftNavStore.useState('display');
 
   useEffect(() => {
     window.scrollTo(0, 0);

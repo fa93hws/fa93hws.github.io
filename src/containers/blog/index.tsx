@@ -2,8 +2,8 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import PageLoading from '@/containers/page-loading';
-import { useIsLeftNavShown } from '@/containers/nav-left/is-shown';
-import { useTopBarTitle } from '@/containers/top-bar/use-title';
+import { leftNavStore } from '@/containers/nav-left';
+import { topBarStore } from '@/containers/top-bar';
 import ErrorBoundary from '@/components/error-boundary';
 import { LabelSection } from '@/components/label';
 import lazyComponentFactory from '@/utils/lazy-comp';
@@ -15,8 +15,8 @@ import styles from './style.less';
 
 const BlogsPage =  function({ data: blog }: { data: IBlog }) {
   const [wrapperClass, setWrapperClass] = useState(styles.article);
-  const [,setIsLeftNavShown] = useIsLeftNavShown();
-  const [, setTitle] = useTopBarTitle();
+  const [,setIsLeftNavShown] = leftNavStore.useState('display');
+  const [,setTitle] = topBarStore.useState<string>('title');
 
   
   useEffect(() => {

@@ -6,10 +6,10 @@ import { IBlog } from '@/models/blog';
 import { IPageable } from '@/models/pageable';
 import ErrorBoundary from '@/components/error-boundary';
 import { LabelSection } from '@/components/label';
+import { topBarStore } from '@/containers/top-bar';
 import dataResolver from './api';
 import styles from './style.less';
 import PageLoading from '../page-loading';
-import { useTopBarTitle } from '../top-bar/use-title';
 
 const BlogCard = ({ blog }: { blog: IBlog }) => (
   <li className={styles.blogItem}>
@@ -51,10 +51,11 @@ function Home({ data }: { data: IPageable<IBlog>}) {
 const Fetcher = lazyComponentFactory(dataResolver, Home);
 
 export default function Wrapper () {
-  const [, setTitle] = useTopBarTitle();
+  const [,setTitle] = topBarStore.useState<string>('title');
+
   useEffect(() => {
     setTitle('夏目天子的博客');
-  });
+  }, []);
   
   return (
     <main className={styles.container}>
