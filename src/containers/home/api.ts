@@ -15,7 +15,11 @@ const queryNode: GQNode = buildRepositoryGQNode([
   buildIssuesGQNode(['blog'], 10, [
     'totalCount', {
       name: 'nodes',
-      children: ['createdAt', 'title', 'body', 'number',
+      children: ['createdAt', 'title', 'number',
+      {
+        name: 'bodyHTML',
+        alias: 'abstract'
+      },
         buildLabelGQNode(['color', 'description', 'name']),
         buildAuthorGQNode(['name', 'avatarUrl', 'url'])
       ]

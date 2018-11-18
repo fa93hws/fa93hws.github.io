@@ -6,6 +6,7 @@ import Store from '@/utils/shared-state';
 import styles from './style.less';
 
 export const leftNavStore = new Store();
+leftNavStore.createState('display', true);
 
 interface IIconName {
   home: string;
@@ -47,7 +48,7 @@ function NavItem({ to , field }: { to: string, field: keyof IIconName }) {
 }
 
 export default function LeftNav() {
-  const [isLeftNavShown] = leftNavStore.useState('display', true);
+  const [isLeftNavShown] = leftNavStore.useState<boolean>('display');
 
   let wrapperClass = styles.left;
   if (!isLeftNavShown)

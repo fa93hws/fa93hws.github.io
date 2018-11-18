@@ -5,9 +5,11 @@ export type CallBackType = (...args: any[]) => any;
 export default class MessageChannel {
   private readonly events: { [eventName: string]: CallBackType[] } = {};
 
+  @bindthis public hasEvent(eventName: string) {
+    return this.events[eventName] !== undefined && this.events[eventName].length > 0;
+  }
   @bindthis public publish(eventName: string, ...args: any[]) {
     if (this.events[eventName] === undefined) return;
-    // console.log(`event ${eventName} published`)
     this.events[eventName].forEach(c => {
       c(...args);
     });
@@ -17,7 +19,6 @@ export default class MessageChannel {
     if (this.events[eventName] === undefined)
       this.events[eventName] = [];
     this.events[eventName].push(callback);
-    // console.log(`event ${eventName} has ${this.events[eventName].length} listener`);
   }
 
   @bindthis public unsubscribe(eventName: string, callback: CallBackType) {

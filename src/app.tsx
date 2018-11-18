@@ -22,7 +22,7 @@ const BlogPage = Loadable({
 });
 
 function App(props: RouteComponentProps) {
-  const [isLeftNavShown] = leftNavStore.useState('display');
+  const [isLeftNavShown] = leftNavStore.useState<boolean>('display');
 
   useEffect(() => {
     window.scrollTo(0, 0);

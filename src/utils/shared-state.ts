@@ -12,24 +12,24 @@ export default class Store {
     return `set_${name}`;
   }
 
-  @bindthis public useState<T>(name: string, initialVal?: T): [T, (val: T) => void] {
-    if (this.state.has(name))
-      initialVal = this.state.get(name);
-    else
-      this.state.set(name, initialVal);
-    const [individualState, _setIndividualState] = useState(initialVal);
+  @bindthis public createState<T>(name: string, initialVal: T): void {
+    this.state.set(name, initialVal);
+  }
+
+  @bindthis public useState<T>(name: string): [T, (val: T) => void] {
+    const eventName = this.toEventName(name);
+    const [individualState, _setIndividualState] = useState(this.state.get(name));
 
     useEffect(() => {
-      this.channel.subscribe(this.toEventName(name), _setIndividualState);
+      this.channel.subscribe(eventName, _setIndividualState);
       return () => {
-        this.channel.unsubscribe(this.toEventName(name), _setIndividualState);
+        this.channel.unsubscribe(eventName, _setIndividualState);
       }
     }, []);
 
     const setIndividualState = (value: T) => {
-      // console.log(this, name, value);
       this.state.set(name, value);
-      this.channel.publish(this.toEventName(name), value);
+      this.channel.publish(eventName, value);
     }
 
     return [individualState, setIndividualState];

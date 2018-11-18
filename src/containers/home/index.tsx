@@ -22,9 +22,10 @@ const BlogCard = ({ blog }: { blog: IBlog }) => (
           {blog.title}
         </h1>
       </Link>
-      <p className={styles.blogAbstract}>
-        {blog.body}
-      </p>
+      <p
+        className={styles.blogAbstract}
+        dangerouslySetInnerHTML={{__html: blog.abstract}}
+      />
     </article>
     {
       blog.labels.length > 0 ?
@@ -52,7 +53,6 @@ const Fetcher = lazyComponentFactory(dataResolver, Home);
 
 export default function Wrapper () {
   const [,setTitle] = topBarStore.useState<string>('title');
-
   useEffect(() => {
     setTitle('夏目天子的博客');
   }, []);

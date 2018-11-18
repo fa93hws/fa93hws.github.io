@@ -6,7 +6,7 @@ import bindthis from '@/utils/decorators/bindthis';
 export interface IRawBlog {
   createdAt?: string;
   title?: string;
-  body?: string;
+  abstract?: string;
   labels?: {
     nodes: Array<ILabelModel>;
   };
@@ -17,7 +17,7 @@ export interface IBlog {
   createdAt?: string;
   timeStr?: string;
   title?: string;
-  body?: string;
+  abstract?: string;
   content?: string;
   labels?: Array<ILabelModel>;
   author?: IPerson;
@@ -28,7 +28,7 @@ export interface IBlog {
 export class BlogModel extends BaseModel implements IBlog, IGQModel {
   public createdAt: string;
   public title: string;
-  public body: string;
+  public abstract: string;
   public content: string;
   public labels: Array<ILabelModel>;
   public author: IPerson;

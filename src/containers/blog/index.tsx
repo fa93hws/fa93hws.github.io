@@ -9,13 +9,13 @@ import { LabelSection } from '@/components/label';
 import lazyComponentFactory from '@/utils/lazy-comp';
 import { render } from '@/utils/markdown/renderer';
 import { IBlog } from '@/models/blog';
-import mdStyles from '@/assets/styles/github-markdown.less';
 import dataResolverBuilder from './api';
 import styles from './style.less';
+import '@/assets/styles/github-markdown.less';
 
 const BlogsPage =  function({ data: blog }: { data: IBlog }) {
   const [wrapperClass, setWrapperClass] = useState(styles.article);
-  const [,setIsLeftNavShown] = leftNavStore.useState('display');
+  const [,setIsLeftNavShown] = leftNavStore.useState<Boolean>('display');
   const [,setTitle] = topBarStore.useState<string>('title');
 
   
@@ -42,7 +42,7 @@ const BlogsPage =  function({ data: blog }: { data: IBlog }) {
           {blog.timeStr}
         </time>
       </header>
-      <section className={[mdStyles.markdownBody, styles.body].join(' ')}
+      <section className={['markdown-body', styles.body].join(' ')}
         dangerouslySetInnerHTML={{
           __html: render(blog.content)
         }}
