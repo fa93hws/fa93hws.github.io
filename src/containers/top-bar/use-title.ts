@@ -7,6 +7,7 @@ const eventName = 'setTopBarTitle';
 let topBarTitle = '';
 
 function setTopBarTitle(val: string) {
+  document.title = val;
   channel.publish(eventName, val);
 }
 
