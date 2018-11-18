@@ -1,6 +1,7 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 
+import gistLoader from '@/apis/gist-loader';
 import PageLoading from '@/containers/page-loading';
 import { leftNavStore } from '@/containers/nav-left';
 import { topBarStore } from '@/containers/top-bar';
@@ -12,12 +13,13 @@ import { IBlog } from '@/models/blog';
 import dataResolverBuilder from './api';
 import styles from './style.less';
 import '@/assets/styles/github-markdown.less';
+import '@/assets/styles/gist.less';
 
 const BlogsPage =  function({ data: blog }: { data: IBlog }) {
   const [wrapperClass, setWrapperClass] = useState(styles.article);
   const [,setIsLeftNavShown] = leftNavStore.useState<Boolean>('display');
   const [,setTitle] = topBarStore.useState<string>('title');
-
+  // use memo to calculate the HTML string from md body
   
   useEffect(() => {
     setTitle(blog.title);
@@ -25,11 +27,15 @@ const BlogsPage =  function({ data: blog }: { data: IBlog }) {
     setIsLeftNavShown(false);
     // add transform animation at the beginning
     setWrapperClass([styles.article, styles.loaded].join(' '));
+
     // add css to parse latex formula
     const linkElement = document.createElement('link');
     linkElement.rel="stylesheet";
     linkElement.href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"
     document.getElementsByTagName('head')[0].append(linkElement);
+
+    // parse gist
+    gistLoader.parseAllIn('blogBody');
   }, [])
 
   return (
@@ -43,6 +49,7 @@ const BlogsPage =  function({ data: blog }: { data: IBlog }) {
         </time>
       </header>
       <section className={['markdown-body', styles.body].join(' ')}
+        id="blogBody"
         dangerouslySetInnerHTML={{
           __html: render(blog.content)
         }}
