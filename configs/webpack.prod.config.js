@@ -79,6 +79,8 @@ module.exports = merge(config, {
       },
       renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
         renderAfterTime: 5000,
+        injectProperty: '__PRERENDER_INJECTED',
+        renderAfterDocumentEvent: 'render-trigger'
       })
     })
   ]

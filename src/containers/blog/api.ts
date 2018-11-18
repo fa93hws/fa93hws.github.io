@@ -7,6 +7,7 @@ import {
   buildBlogContentGQNode
 } from '@/apis/queries/blog';
 import { IBlog, BlogModel } from '@/models/blog';
+import { save, load } from '@/utils/ssr-helper';
 
 
 const queryNodeBuilder = (blogId: number) => buildRepositoryGQNode([
@@ -18,10 +19,14 @@ const queryNodeBuilder = (blogId: number) => buildRepositoryGQNode([
 ]);
 
 const dataResolverBuilder = (blogId: number) => new Promise((resolve, reject) => {
+  const cache = load<IBlog>(`blog_${blogId}`);
+  if (cache !== undefined)
+    return resolve(cache);
   graphqlApi.post(queryNodeBuilder(blogId)).then(res => {
     const blog = new BlogModel();
     blog.parseGQResponse((<any>res).issue)
-    blog.content = (<any>res).blog.text
+    blog.content = (<any>res).blog.text;
+    save(blog, `blog_${blogId}`);
     resolve(blog);
   }).catch(reject);
 });

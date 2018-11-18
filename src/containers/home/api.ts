@@ -31,7 +31,7 @@ const dataResolver: Promise<IPageable<IBlog>> = new Promise((resolve, reject) =>
   const cache = load<IPageable<IBlog>>('blogList');
   if (cache !== undefined)
     return resolve(cache);
-    graphqlApi.post<IRawRepository>(queryNode).then(raw => {
+  graphqlApi.post<IRawRepository>(queryNode).then(raw => {
     const repository = new Repository();
     repository.parseGQResponse(raw);
     save(repository.blogs, 'blogList');
