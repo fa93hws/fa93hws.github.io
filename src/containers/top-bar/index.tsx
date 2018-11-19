@@ -31,11 +31,14 @@ function TopNav(props: RouteComponentProps) {
 
   useEffect(() => {
     if (props.location.pathname === '/404')
-      setHideShareFlag(true)
+      setHideShareFlag(true);
     else
       setHideShareFlag(false);
-    document.title = title;
   }, [props.location.pathname]);
+
+  useEffect(() => {
+    document.title = title;
+  }, [title])
   
   // right icon class
   let rightIconClass = [icons.iconShare2, styles.icon, styles.iconShare].join(' ');
