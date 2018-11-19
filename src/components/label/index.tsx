@@ -6,7 +6,7 @@ import './style.less';
 
 function calculateTextColor(hex: string) {
   const hexRGB = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  if (hexRGB === undefined || hexRGB.length != 4)
+  if (hexRGB === undefined || hexRGB === null || hexRGB.length != 4)
     throw new Error(`color ${hex} is not correct in label component`);
   const rgb = hexRGB
   .filter((_, idx) => idx !== 0)
@@ -29,7 +29,7 @@ export const Label = ({ label }: { label: ILabelModel }) => (
       className="lt-label__wrapper"
       style={{
         background: '#' + label.color,
-        color: calculateTextColor(label.color)
+        color: calculateTextColor(label.color!)
       }}
     >
       {label.name}

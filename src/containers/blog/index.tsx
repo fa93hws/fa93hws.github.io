@@ -1,7 +1,8 @@
-import React, { Suspense, useState, useEffect, useMemo } from 'react';
-import { RouteComponentProps } from 'react-router';
+import React, { Suspense, useState, useEffect, useMemo, useRef } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 import gistLoader from '@/apis/gist-loader';
+import Comments from '@/containers/comments';
 import PageLoading from '@/containers/page-loading';
 import { leftNavStore } from '@/containers/nav-left';
 import { topBarStore } from '@/containers/top-bar';
@@ -11,19 +12,21 @@ import lazyComponentFactory from '@/utils/lazy-comp';
 import { render } from '@/utils/markdown/renderer';
 import { IBlog } from '@/models/blog';
 import dataResolverBuilder from './api';
-import styles from './style.less';
+import styles, { article } from './style.less';
 import '@/assets/styles/github-markdown.less';
 import '@/assets/styles/gist.less';
+import { useScroll } from '@/utils/hooks/dom-listener';
 
 const BlogsPage =  function({ data: blog }: { data: IBlog }) {
   const [wrapperClass, setWrapperClass] = useState(styles.article);
   const [,setIsLeftNavShown] = leftNavStore.useState<Boolean>('display');
   const [,setTitle] = topBarStore.useState<string>('title');
-  const contentHTML = useMemo(() => render(blog.content), [blog.content])
-  console.log('blog render');
+  const [showComments, setShowComments] = useState(false);
+  const contentHTML = useMemo(() => render(blog.content!), [blog.content!]);
+  const articleRef = useRef<HTMLElement>(null);
   
   useEffect(() => {
-    setTitle(blog.title);
+    setTitle(blog.title!);
     // hide left nav
     setIsLeftNavShown(false);
     // add transform animation at the beginning
@@ -37,26 +40,49 @@ const BlogsPage =  function({ data: blog }: { data: IBlog }) {
 
     // parse gist
     gistLoader.parseAllIn('blogBody');
-  }, [])
+  }, []);
+
+  // lazy load comments
+  useScroll(() => {
+    if (showComments === false) {
+      const clientHeight = window.innerHeight;
+      const scrollHeight = window.scrollY;
+      let articleHeight;
+      if (articleRef === null || articleRef.current === null)
+        articleHeight = 999999;
+      else
+        articleHeight = articleRef.current.clientHeight;
+      if (clientHeight + scrollHeight > articleHeight) {
+        setShowComments(true);
+      }
+    }
+  }, [showComments]);
 
   return (
-    <article className={wrapperClass}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>
-          {blog.title}
-        </h1>
-        <time className={styles.time}>
-          {blog.timeStr}
-        </time>
-      </header>
-      <section className={['markdown-body', styles.body].join(' ')}
-        id="blogBody"
-        dangerouslySetInnerHTML={{
-          __html: contentHTML
-        }}
-      />
-      <LabelSection labels={blog.labels} />
-    </article>
+    <React.Fragment>
+      <article className={wrapperClass} ref={articleRef}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>
+            {blog.title}
+          </h1>
+          <time className={styles.time} dateTime={blog.createdAt}>
+            {blog.timeStr}
+          </time>
+        </header>
+        <section className={['markdown-body', styles.body].join(' ')}
+          id="blogBody"
+          dangerouslySetInnerHTML={{
+            __html: contentHTML
+          }}
+        />
+        <LabelSection labels={blog.labels!} />
+      </article>
+      {
+        showComments ?
+        <Comments number={blog.number!} blogAuthorId={blog.author!.id!} /> :
+        null
+      }      
+    </React.Fragment>
   );
 }
 
@@ -68,29 +94,27 @@ function isBlogIdValid(id: string) {
 interface IMatchProps {
   blogId: string;
 }
-export default class Wrapper extends React.Component<RouteComponentProps<IMatchProps>> {
-  // prevent re-ajax since suspense is used
-  public shouldComponentUpdate(nextProps: RouteComponentProps<IMatchProps>): boolean {
-    return nextProps.location.pathname !== this.props.location.pathname;
-  }
+function Wrapper(props: RouteComponentProps<IMatchProps>) {
+  const blogIdStr = props.match.params.blogId;
+  if (!isBlogIdValid(blogIdStr))
+    window.location.replace('/404');
 
-  public render() {
-    const blogIdStr = this.props.match.params.blogId;
-    if (!isBlogIdValid(blogIdStr))
-      window.location.replace('/404');
+  const Fetcher = useMemo(() => {
     const blogId = parseInt(blogIdStr, 10);
     const dataResolver = dataResolverBuilder(blogId);
-    const Fetcher = lazyComponentFactory(dataResolver, BlogsPage);
+    return lazyComponentFactory(dataResolver, BlogsPage)
+  }, [blogIdStr]);
   
-    return (
-      <main>
-        <header className="global__header" />
-        <ErrorBoundary>
-          <Suspense fallback={<PageLoading />}>
-            <Fetcher />
-          </Suspense>
-        </ErrorBoundary>
-      </main>
-    )
-  }
-};
+  return (
+    <main>
+      <header className="global__header" />
+      <ErrorBoundary>
+        <Suspense fallback={<PageLoading />}>
+          <Fetcher />
+        </Suspense>
+      </ErrorBoundary>
+    </main>
+  )
+}
+
+export default withRouter(Wrapper);

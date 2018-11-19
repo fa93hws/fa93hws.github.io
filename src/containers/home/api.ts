@@ -2,9 +2,9 @@ import { graphqlApi } from '@/apis/graphql';
 import {
   buildRepositoryGQNode,
   buildIssuesGQNode,
-  buildAuthorGQNode,
   buildLabelGQNode
 } from '@/apis/queries/blog';
+import { buildAuthorGQNode } from '@/apis/queries/user';
 import { GQNode } from '@/apis/query-builder';
 import { save, load } from '@/utils/ssr-helper';
 import { IPageable } from '@/models/pageable';
@@ -21,7 +21,7 @@ const queryNode: GQNode = buildRepositoryGQNode([
         alias: 'abstract'
       },
         buildLabelGQNode(['color', 'description', 'name']),
-        buildAuthorGQNode(['name', 'avatarUrl', 'url'])
+        buildAuthorGQNode(['name', 'avatarUrl', 'url', 'id'])
       ]
     }
   ])

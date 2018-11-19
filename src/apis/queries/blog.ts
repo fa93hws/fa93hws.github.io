@@ -1,5 +1,4 @@
 import { GQNode } from "@/apis/query-builder";
-import { UserFieldsType } from "./user";
 
 export function buildRepositoryGQNode(children: GQNode[]): GQNode {
   return {
@@ -50,14 +49,6 @@ export function buildLabelGQNode(fields: LabelFieldsType[]): GQNode {
       name: 'nodes',
       children: fields
     }]
-  }
-}
-
-export function buildAuthorGQNode(fields: UserFieldsType[]): GQNode {
-  return {
-    name: 'author',
-    on: 'User',
-    children: fields
   }
 }
 

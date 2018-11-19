@@ -1,0 +1,95 @@
+@import '../../assets/styles/size.less';
+@import '../../assets/styles/colors.less';
+
+.container {
+  width: @blog-width;
+  color: @color--dark;
+  margin: 50px auto;
+  background: white;
+  box-shadow: 0 0 20px 0 @color--box-shadow;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 30px;
+}
+
+.list {
+  padding-top: 20px;
+  color: @color--dark;
+}
+.no-comment {
+  color: @color--dark;
+}
+.item {
+  display: block;
+  margin-bottom: 40px;
+}
+
+.header {
+  height: 44px;
+  display: flex;
+  background: @color--cyan;
+  border-bottom: 1px solid @color--border-grey;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 10px;
+}
+
+.header-left {
+  height: 100%;
+  display: flex;
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+  }
+}
+
+
+.header-right {
+  display: flex;
+  flex: 1;
+  margin-left: 15px;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .name {
+    color: inherit;
+  }
+  .name.is-author::after {
+    content: '(作者)';
+    margin-left: 0.5em;
+  }
+  .name:hover {
+    text-decoration: underline;
+  }
+  .time {
+    color: @color--grey;
+  }
+  .reply {
+    color: rgba(47, 64, 127, 0.5);
+    cursor: pointer;
+  }
+  .reply:hover {
+    color: rgba(47, 64, 127, 1);
+    text-decoration: underline;
+  }
+  & > .row {
+    display: flex;
+  }
+  & > .row-1 {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 12px;
+  }
+}
+
+.body {
+  padding: 10px;
+  border: 1px solid @color--cyan;
+}
+.item .body p {
+  text-indent: 0;
+}

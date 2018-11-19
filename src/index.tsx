@@ -13,7 +13,7 @@ render(
   container
 );
 
-let module: {
+declare const module: {
   hot: any
 };
 if (module !== undefined && module.hot) {

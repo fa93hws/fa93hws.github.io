@@ -24,12 +24,12 @@ const BlogCard = ({ blog }: { blog: IBlog }) => (
       </Link>
       <p
         className={styles.blogAbstract}
-        dangerouslySetInnerHTML={{__html: blog.abstract}}
+        dangerouslySetInnerHTML={{__html: blog.abstract!}}
       />
     </article>
     {
-      blog.labels.length > 0 ?
-      <LabelSection labels={blog.labels} /> :
+      blog.labels!.length > 0 ?
+      <LabelSection labels={blog.labels!} /> :
       null
     }
   </li>

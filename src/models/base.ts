@@ -4,5 +4,6 @@ export interface IGQModel {
 export default abstract class BaseModel {
   constructor(params: any = {}) {
     Object.assign(this, params);
+    // console.log('base', JSON.stringify(this));
   }
 }

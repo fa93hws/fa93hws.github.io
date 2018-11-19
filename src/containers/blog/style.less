@@ -3,16 +3,17 @@
 
 .article {
   font-size: 16px;
-  width: 740px;
+  width: @blog-width;
   margin: 0 auto;
   background: white;
   padding: 40px 30px 10px;
   border-radius: 8px;
   box-shadow: 0 0 20px 0 @color--box-shadow;
-  transition: transform 0.5s;
+  box-sizing: border-box;
+  transition: margin 0.5s;
 
   &.loaded {
-    transform: translateY(-150px);
+    margin-top: -150px;
   }
 }
 

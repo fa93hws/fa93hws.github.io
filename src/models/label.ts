@@ -7,7 +7,7 @@ export interface ILabelModel {
 }
 
 export class LabelModel extends BaseModel implements ILabelModel {
-  public color: string;
-  public name: string;
-  public description: string;
+  public color: string = '';
+  public name: string = '';
+  public description: string = '';
 }

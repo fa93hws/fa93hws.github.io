@@ -10,11 +10,11 @@ export interface IRawRepository {
   }
 }
 export interface IRepository {
-  blogs?: IPageable<IBlog>
+  blogs?: IPageable<IBlog>;
 }
 
 export class Repository extends BaseModel implements IRepository, IGQModel {
-  public blogs: IPageable<IBlog>;
+  public blogs?: IPageable<IBlog>;
 
   @bindthis public parseGQResponse(repo: IRawRepository) {
     const rawBlogs = repo.issues;

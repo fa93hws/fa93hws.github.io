@@ -15,7 +15,7 @@ class GQCacheManager {
     return this._requestIdx;
   }
 
-  private _cache: { [idx: number]: cache } = {};
+  private _cache: { [idx: number]: any } = {};
   public changePending(idx: number, val: boolean) {
     if (this._cache[idx] === undefined) {
       this._requestIdx ++;

@@ -2,17 +2,17 @@ import { graphqlApi } from '@/apis/graphql';
 import {
   buildRepositoryGQNode,
   buildIssueGQNode,
-  buildAuthorGQNode,
   buildLabelGQNode,
   buildBlogContentGQNode
 } from '@/apis/queries/blog';
+import { buildAuthorGQNode } from '@/apis/queries/user';
 import { IBlog, BlogModel } from '@/models/blog';
 import { save, load } from '@/utils/ssr-helper';
 
 
 const queryNodeBuilder = (blogId: number) => buildRepositoryGQNode([
-  buildIssueGQNode(blogId, ['title', 'createdAt',
-    buildAuthorGQNode(['url', 'name', 'avatarUrl', 'email']),
+  buildIssueGQNode(blogId, ['title', 'createdAt', 'number',
+    buildAuthorGQNode(['url', 'name', 'avatarUrl', 'email', 'id']),
     buildLabelGQNode(['name', 'color', 'description'])
   ]),
   buildBlogContentGQNode(blogId)

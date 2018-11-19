@@ -34,9 +34,9 @@ function TopNav(props: RouteComponentProps) {
       setHideShareFlag(true)
     else
       setHideShareFlag(false);
+    document.title = title;
   }, [props.location.pathname]);
-
-  document.title = title;
+  
   // right icon class
   let rightIconClass = [icons.iconShare2, styles.icon, styles.iconShare].join(' ');
   if (hideShareFlag)

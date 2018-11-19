@@ -1,6 +1,6 @@
 import BaseModel, { IGQModel } from './base';
 import { ILabelModel } from './label';
-import { IPerson } from './person';
+import { IPerson, Person, IRawPerson } from './person';
 import bindthis from '@/utils/decorators/bindthis';
 
 export interface IRawBlog {
@@ -10,7 +10,7 @@ export interface IRawBlog {
   labels?: {
     nodes: Array<ILabelModel>;
   };
-  author?: IPerson;
+  author?: IRawPerson;
   number?: number;
 }
 export interface IBlog {
@@ -26,16 +26,16 @@ export interface IBlog {
 }
 
 export class BlogModel extends BaseModel implements IBlog, IGQModel {
-  public createdAt: string;
-  public title: string;
-  public abstract: string;
-  public content: string;
-  public labels: Array<ILabelModel>;
-  public author: IPerson;
-  public id: string;
-  public number: number;
+  public createdAt: string = '';
+  public title: string = '';
+  public abstract: string = '';
+  public content: string = '';
+  public labels?: Array<ILabelModel>;
+  public author?: IPerson;
+  public id: string = '';
+  public number: number = -1;
 
-  private _timeStr: string;
+  private _timeStr: string = '';
   public get timeStr(): string | undefined {
     if (this._timeStr === undefined && this.createdAt !== undefined && this.createdAt !== '') {
       this._timeStr = this.createdAt.split('T')[0]
@@ -48,7 +48,9 @@ export class BlogModel extends BaseModel implements IBlog, IGQModel {
   @bindthis public parseGQResponse(blog: IRawBlog) {
     Object.keys(blog).forEach(k => {
       if (k === 'labels')
-        this.labels = blog[k].nodes.filter(l => l.name !== 'blog');
+        this.labels = blog[k]!.nodes.filter(l => l.name !== 'blog');
+      else if (k === 'author')
+        this.author = new Person(blog[k]);
       else
         (this as any)[k] = (blog as any)[k];
     })

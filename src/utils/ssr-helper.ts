@@ -15,7 +15,7 @@ export function save(data: any, name: string): void {
   });
 }
 
-export function load<T>(name: string): T {
+export function load<T>(name: string): T | undefined {
   const varName = getVarName(name);
   const base64 = (<any>window)[varName];
   if (base64 === undefined)
