@@ -1,21 +1,31 @@
-import React, { Suspense, useState, useEffect, useMemo, useRef } from 'react';
+import React, { 
+  Suspense,
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  createContext,
+  lazy
+} from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import gistLoader from '@/apis/gist-loader';
-import Comments from '@/containers/comments';
+const Comments = lazy(() => import(/* webpackChunkName: "comment" */'@/containers/comments'));
 import PageLoading from '@/containers/page-loading';
 import { leftNavStore } from '@/containers/nav-left';
 import { topBarStore } from '@/containers/top-bar';
 import ErrorBoundary from '@/components/error-boundary';
 import { LabelSection } from '@/components/label';
 import lazyComponentFactory from '@/utils/lazy-comp';
+import { useScroll } from '@/utils/hooks/dom-listener';
 import { render } from '@/utils/markdown/renderer';
 import { IBlog } from '@/models/blog';
 import dataResolverBuilder from './api';
-import styles, { article } from './style.less';
+import styles from './style.less';
 import '@/assets/styles/github-markdown.less';
 import '@/assets/styles/gist.less';
-import { useScroll } from '@/utils/hooks/dom-listener';
+
+export const BlogContext = createContext<IBlog | null>(null);
 
 const BlogsPage =  function({ data: blog }: { data: IBlog }) {
   const [wrapperClass, setWrapperClass] = useState(styles.article);
@@ -59,7 +69,7 @@ const BlogsPage =  function({ data: blog }: { data: IBlog }) {
   }, [showComments]);
 
   return (
-    <React.Fragment>
+    <BlogContext.Provider value={blog}>
       <article className={wrapperClass} ref={articleRef}>
         <header className={styles.header}>
           <h1 className={styles.title}>
@@ -79,10 +89,12 @@ const BlogsPage =  function({ data: blog }: { data: IBlog }) {
       </article>
       {
         showComments ?
-        <Comments number={blog.number!} blogAuthorId={blog.author!.id!} /> :
+        <Suspense fallback={<PageLoading />}>
+          <Comments />
+        </Suspense> :
         null
-      }      
-    </React.Fragment>
+      }
+    </BlogContext.Provider>
   );
 }
 
@@ -96,8 +108,6 @@ interface IMatchProps {
 }
 function Wrapper(props: RouteComponentProps<IMatchProps>) {
   const blogIdStr = props.match.params.blogId;
-  if (!isBlogIdValid(blogIdStr))
-    window.location.replace('/404');
 
   const Fetcher = useMemo(() => {
     const blogId = parseInt(blogIdStr, 10);
@@ -105,6 +115,9 @@ function Wrapper(props: RouteComponentProps<IMatchProps>) {
     return lazyComponentFactory(dataResolver, BlogsPage)
   }, [blogIdStr]);
   
+  if (!isBlogIdValid(blogIdStr))
+    window.location.replace('/404');
+
   return (
     <main>
       <header className="global__header" />

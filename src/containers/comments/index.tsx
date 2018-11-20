@@ -1,16 +1,11 @@
-import React, { useEffect, useState, useMemo, createContext, useContext } from 'react';
+import React, { useEffect, useState, useMemo, useContext } from 'react';
 
 import PageLoading from '@/containers/page-loading';
+import { BlogContext } from '@/containers/blog';
 import dataResolverBuilder from './api';
 import styles from './style.less';
 import { ICommentsManager } from '@/models/comments';
 import { IComment } from '@/models/comment';
-
-interface ICommentContext {
-  number: number;
-  blogAuthorId: string;
-}
-const CommentContext = createContext<ICommentContext>({ number: -1, blogAuthorId: '' });
 
 function CommentList({ manager }: { manager: ICommentsManager }) {
   if (manager.totalCount === 0)
@@ -29,9 +24,9 @@ function CommentList({ manager }: { manager: ICommentsManager }) {
 }
 
 function CommentItem ({ comment }: { comment: IComment} ) {
-  const { blogAuthorId } = useContext(CommentContext);
+  const blog = useContext(BlogContext);
   const authorClass = useMemo(() => {
-    if (blogAuthorId === comment.author!.id!)
+    if (blog!.author!.id === comment.author!.id!)
       return styles.name + ' ' + styles.isAuthor;
     else
       return styles.name;
@@ -75,28 +70,21 @@ function CommentItem ({ comment }: { comment: IComment} ) {
   );
 }
 
-export default function CommentsSection({
-  number,
-  blogAuthorId
-}: {
-  number: number,
-  blogAuthorId: string
-}) {
+export default function CommentsSection() {
+  const blog = useContext(BlogContext);
   const [manager, setManager] = useState<ICommentsManager | null>(null);
   const initialized = useMemo(() => manager !== null, [manager]);
   useEffect(() => {
-    dataResolverBuilder(number).then(setManager);
+    dataResolverBuilder(blog!.number!).then(setManager);
   }, []);
 
   return (
-    <CommentContext.Provider value={{number, blogAuthorId }}>
-      <section className={styles.container}>
-        {
-          initialized ?
-          <CommentList manager={manager!} /> :
-          <PageLoading />
-        }
-      </section>
-    </CommentContext.Provider>
+    <section className={styles.container}>
+      {
+        initialized ?
+        <CommentList manager={manager!} /> :
+        <PageLoading />
+      }
+    </section>
   );
 }
