@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
+const loaders = require('./loaders');
 
 const config = require('./webpack.base.config');
 
@@ -26,18 +27,7 @@ module.exports = merge(config, {
   ],
   module: {
     rules: [
-      {
-        test: /\.(css|less)$/,
-        use: [
-          'style-loader',
-          'typings-for-css-modules-loader?modules&namedExport&camelCase&localIdentName=[local]--[hash:base64:5]',
-          {
-            loader: 'less-loader',
-            options: { javascriptEnabled: true },
-          },
-          'postcss-loader'
-        ]
-      }
+      loaders.dev.style
     ]
   }
 })

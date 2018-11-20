@@ -1,0 +1,22 @@
+.circle(@radius) {
+  width: @radius;
+  height: @radius;
+  border-radius: @radius;
+}
+
+.arrow(@size, @thickness, @color) {
+  width: @size;
+  height: @size;
+  overflow: hidden;
+  position: relative;
+  &::before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    width: @size;
+    height: @size;
+    top: (@size - @thickness) * 0.707 / 2;
+    left: (@size - @thickness) * 0.707 / 2;
+    border: @thickness solid @color;
+  }
+}

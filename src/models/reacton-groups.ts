@@ -5,8 +5,9 @@ export type IReactionType = 'THUMBS_UP' | 'THUMBS_DOWN' |
 export interface IRawReactionGroup {
   content: IReactionType;
   users: {
-    totalCount: number
-  }
+    totalCount: number;
+  },
+  viewerHasReacted: boolean;
 }
 
 export interface IReactionGroups {

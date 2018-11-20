@@ -7,6 +7,7 @@ import LeftNav from './containers/nav-left';
 import TopBar from './containers/top-bar';
 import PageLoading from './containers/page-loading';
 import NotFound from './containers/not-found';
+import BackToTop from './components/back-to-top';
 import { leftNavStore } from './containers/nav-left';
 import './assets/styles/site.less';
 import './assets/styles/icon-font.css';
@@ -44,6 +45,8 @@ function App(props: RouteComponentProps) {
           <Redirect to="/404" />
         </Switch>
       </div>
+      
+      <BackToTop />
     </Fragment>
   );
 }

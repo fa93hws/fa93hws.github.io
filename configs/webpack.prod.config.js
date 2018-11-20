@@ -9,6 +9,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const config = require('./webpack.base.config');
+const loaders = require('./loaders');
 const prerenderRoutes = require('../scripts/prerender-routes');
 
 module.exports = merge(config, {
@@ -40,20 +41,7 @@ module.exports = merge(config, {
   },
   module: {
     rules: [
-      {
-        test: /\.(css|less)$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: '/'
-            }
-          },
-          'typings-for-css-modules-loader?modules&namedExport&camelCase&localIdentName=[local]--[hash:base64:5]',
-          'less-loader',
-          'postcss-loader'
-        ]
-      }
+      loaders.prod.style
     ]
   },
   plugins: [

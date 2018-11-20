@@ -1,0 +1,32 @@
+@import '../../assets/styles/colors.less';
+@import '../../assets/styles/mixins.less';
+
+.container {
+  .circle(60px);
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  background: @color--blue;
+  box-shadow: 0 5px 10px 0 @color--box-shadow;
+  transition: box-shadow 0.5s;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    box-shadow: 0 7px 10px 2px @color--box-shadow;
+    background: @color--blue;
+    opacity: 0.9;
+  }
+}
+
+.hide {
+  display: none;
+}
+
+.arrow {
+  .arrow(25px, 5px, @color--white);
+  transform: rotate(45deg);
+}
