@@ -4,9 +4,8 @@
 .left {
   position: fixed;
   z-index: 10;
-  overflow: hidden;
   width: @left-nav-width;
-  min-height: 100vh;
+  height: 100vh;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -24,28 +23,64 @@
   border-right: 1px solid @color--box-shadow;
 }
 
+.source-code {
+  @width: 130px;
+  @height: 30px;
+  width: @width;
+  height: @height;
+  line-height: @height;
+  left: @width * 0.707 / 2 - @width / 2;
+  top: @width * 0.707 / 2 - @height / 2;
+  transform: rotate(-45deg) translate(0, -@height);
+
+  position: absolute;
+  overflow: hidden;
+  z-index: 15;
+  text-align: center;
+  background: green;
+  box-shadow: 0 0 50px 0 @color--box-shadow;
+  animation: box-shadow 0.5s;
+  &:hover {
+    box-shadow: 0 0 10px 5px @color--box-shadow;
+  }
+  &:hover > :global(.db) {
+    text-decoration: underline;
+  }
+  & > :global(.db) {
+    color: @color--white;
+  }
+}
+.left.close > .source-code {
+  visibility: hidden;
+}
+
 .author {
   position: relative;
   z-index: 5;
   background: @color--light-blue;
-  padding: 40px 0 40px 20px;
+  padding: 40px 0;
   flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 
   .avatar {
     width: 80px;
     height: 80px;
     border-radius: 50%;
+    margin-left: 20px;
   }
   .name {
     white-space: nowrap;
     margin-top: 1em;
     color: @color--white;
+    margin-left: 20px;
   }
   .email {
     white-space: nowrap;
     color: #c5cae9;
     font-size: 14px;
     margin-top: 0.5em;
+    margin-left: 20px;
   }
 }
 
@@ -59,6 +94,17 @@
   border-right: 1px solid @color--box-shadow;
   box-shadow: 0 0 10px 0 @color--box-shadow;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    appearance: none;
+    height: 8px;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: @color--border-grey;
+    border: 1px solid @color--white;
+    border-radius: 10px;
+  }
 
   .nav-list-item {
     display: block;

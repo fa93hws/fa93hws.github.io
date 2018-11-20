@@ -2,10 +2,11 @@ import React, { useEffect, useState, useMemo, useContext } from 'react';
 
 import PageLoading from '@/containers/page-loading';
 import { BlogContext } from '@/containers/blog';
-import dataResolverBuilder from './api';
-import styles from './style.less';
 import { ICommentsManager } from '@/models/comments';
 import { IComment } from '@/models/comment';
+import Editor from './editor';
+import dataResolverBuilder from './api';
+import styles from './style.less';
 
 function CommentList({ manager }: { manager: ICommentsManager }) {
   if (manager.totalCount === 0)
@@ -80,6 +81,7 @@ export default function CommentsSection() {
 
   return (
     <section className={styles.container}>
+      <Editor />
       {
         initialized ?
         <CommentList manager={manager!} /> :

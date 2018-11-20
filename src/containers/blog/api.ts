@@ -12,7 +12,7 @@ import { save, load } from '@/utils/ssr-helper';
 
 const queryNodeBuilder = (blogId: number) => buildRepositoryGQNode([
   buildIssueGQNode(blogId, ['title', 'createdAt', 'number',
-    buildAuthorGQNode(['url', 'name', 'avatarUrl', 'email', 'id']),
+    buildAuthorGQNode(['url', 'name', 'avatarUrl', 'id']),
     buildLabelGQNode(['name', 'color', 'description'])
   ]),
   buildBlogContentGQNode(blogId)

@@ -56,6 +56,15 @@ export default function LeftNav() {
     
   return (
     <aside className={wrapperClass}>
+      <div className={styles.sourceCode}>
+        <a
+          className="db"
+          target="_blank"
+          href="https://github.com/fa93hws/fa93hws.github.io"
+        >
+          源代码
+        </a>
+      </div>
       <div className={styles.author}>
         <Link to='/' className="db">
           <img className={styles.avatar} src="https://avatars0.githubusercontent.com/u/10626756?v=4"/>

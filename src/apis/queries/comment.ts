@@ -29,7 +29,7 @@ export function buildCommentsGQNode(search: GQSearch, loggedIn: boolean = false)
           name: 'bodyHTML',
           alias: 'content'
         },
-        buildAuthorGQNode(['name', 'avatarUrl', 'url', 'email', 'id']),
+        buildAuthorGQNode(['name', 'avatarUrl', 'url', 'id']),
         buildReactionsGQNode(loggedIn)
       ]
     }]
