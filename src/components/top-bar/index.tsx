@@ -22,7 +22,8 @@ function TopNav(props: RouteComponentProps) {
 
   useResize(() => {
     const html = document.getElementsByTagName('html')[0];
-    setHasVBar(html.scrollHeight > html.clientHeight);
+    setTimeout(() => setHasVBar(html.scrollHeight > html.clientHeight), 100);
+    
   });
 
   useScroll(() => {

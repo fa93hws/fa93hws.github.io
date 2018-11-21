@@ -66,7 +66,7 @@ export default function LeftNav() {
         </a>
       </div>
       <div className={styles.author}>
-        <Link to='/' className="db">
+        <Link to='/'>
           <img className={styles.avatar} src="https://avatars0.githubusercontent.com/u/10626756?v=4"/>
         </Link>
         <p className={styles.name}>夏目天子</p>

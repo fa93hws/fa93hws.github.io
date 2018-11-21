@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { topBarStore } from '@/containers/top-bar';
+import { topBarStore } from '@/components/top-bar';
 import styles from './style.less';
 
 const NotFound = function() {

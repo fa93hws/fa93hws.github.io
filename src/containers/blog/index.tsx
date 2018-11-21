@@ -13,7 +13,7 @@ import gistLoader from '@/apis/gist-loader';
 const Comments = lazy(() => import(/* webpackChunkName: "comment" */'@/containers/comments'));
 import PageLoading from '@/containers/page-loading';
 import { leftNavStore } from '@/containers/nav-left';
-import { topBarStore } from '@/containers/top-bar';
+import { topBarStore } from '@/components/top-bar';
 import ErrorBoundary from '@/components/error-boundary';
 import { LabelSection } from '@/components/label';
 import lazyComponentFactory from '@/utils/lazy-comp';
@@ -106,7 +106,7 @@ function isBlogIdValid(id: string) {
 interface IMatchProps {
   blogId: string;
 }
-function Wrapper(props: RouteComponentProps<IMatchProps>) {
+function BlogWrapper(props: RouteComponentProps<IMatchProps>) {
   const blogIdStr = props.match.params.blogId;
 
   const Fetcher = useMemo(() => {
@@ -130,4 +130,4 @@ function Wrapper(props: RouteComponentProps<IMatchProps>) {
   )
 }
 
-export default withRouter(Wrapper);
+export default withRouter(BlogWrapper);

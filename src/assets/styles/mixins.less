@@ -1,3 +1,5 @@
+@import './colors.less';
+
 .circle(@radius) {
   width: @radius;
   height: @radius;
@@ -18,5 +20,38 @@
     top: (@size - @thickness) * 0.707 / 2;
     left: (@size - @thickness) * 0.707 / 2;
     border: @thickness solid @color;
+  }
+}
+
+.button {
+  cursor: pointer;
+  border-radius: .25em;
+  font-weight: 600;
+  user-select: none;
+  text-decoration: none;
+}
+
+.button-primary {
+  .button;
+  background-color: @color--green;
+  background-image: linear-gradient(-180deg,#34d058, @color--green 90%);
+  color: @color--white;
+
+  &:hover {
+    background-color: #269f42;
+    background-image: linear-gradient(-180deg,#2fcb53,#269f42 90%);
+    background-position: -.5em;
+    border-color: rgba(27,31,35,.5);
+  }
+
+  &:active {
+    background-color: #279f43;
+    background-image: none;
+    border-color: rgba(27,31,35,.5);
+    box-shadow: inset 0 0.15em 0.3em rgba(27,31,35,.15);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2em rgba(52,208,88,.4);
   }
 }

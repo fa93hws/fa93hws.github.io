@@ -17,7 +17,7 @@ module.exports = merge(config, {
   devServer: {
     historyApiFallback: true,
     hot: true,
-    inline: true,
+    inline: true
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

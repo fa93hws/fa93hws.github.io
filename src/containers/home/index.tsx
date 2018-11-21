@@ -6,7 +6,7 @@ import { IBlog } from '@/models/blog';
 import { IPageable } from '@/models/pageable';
 import ErrorBoundary from '@/components/error-boundary';
 import { LabelSection } from '@/components/label';
-import { topBarStore } from '@/containers/top-bar';
+import { topBarStore } from '@/components/top-bar';
 import dataResolver from './api';
 import styles from './style.less';
 import PageLoading from '../page-loading';
