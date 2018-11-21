@@ -27,7 +27,7 @@ function LoginMask() {
   return (
     <div className={styles.loginMask}>
       <a
-        onClick={() => authApi.getToken(callbackUrl)}
+        onClick={() => authApi.auth(callbackUrl)}
         className={styles.login}
       >
         Login
@@ -84,14 +84,13 @@ const EditorWrapper = ({ user, handleSubmit }: {
 );
 
 function SuspenseWrapper() {
-  const [token, setToken] = useState('');
   const [ajaxState, setAjaxState] = useState<EAjaxStatus>(EAjaxStatus.notSubmitted);
   const [user, setUser] = useState<IPerson>(new Person());
   const EditorElement = useMemo(() => {
     switch(ajaxState) {
-      case EAjaxStatus.notSubmitted:
       case EAjaxStatus.pending:
         return <PageLoading />;
+      case EAjaxStatus.notSubmitted:
       case EAjaxStatus.success:
         return <EditorWrapper user={user} handleSubmit={handleSubmit}/>;
       case EAjaxStatus.failed:
@@ -99,6 +98,11 @@ function SuspenseWrapper() {
     }
   }, [ajaxState, user]);
 
+  // load token
+  const [token, setToken] = useState('');
+  useEffect(() => {
+    setToken(authApi.loadToken());
+  }, []);
   const hasToken = useMemo(() => token !== '', [token]);
   const wrapperClass = useMemo(() => {
     let className = styles.container;
@@ -106,10 +110,7 @@ function SuspenseWrapper() {
     return className;
   }, [hasToken]);
 
-  useEffect(() => {
-    setToken(authApi.loadToken());
-  }, []);
-
+  // load user info
   useEffect(() => {
     if (token === '') return;
     setAjaxState(EAjaxStatus.pending);
