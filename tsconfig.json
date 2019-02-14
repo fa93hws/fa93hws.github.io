@@ -9,7 +9,7 @@
       "@/*": ["src/*"]
     },
     "jsx": "react",
-    "module": "commonjs",
+    "module": "esNext",
     "moduleResolution": "node",    
     "lib": [
       "es2015",
