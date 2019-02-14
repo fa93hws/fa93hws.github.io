@@ -9,7 +9,7 @@
       "@/*": ["src/*"]
     },
     "jsx": "react",
-    "module": "ESNext",
+    "module": "commonjs",
     "moduleResolution": "node",    
     "lib": [
       "es2015",
@@ -18,7 +18,8 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "target": "es5"
+    "target": "es5",
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules",

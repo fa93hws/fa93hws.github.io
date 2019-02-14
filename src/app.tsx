@@ -12,7 +12,6 @@ import { leftNavStore } from './containers/nav-left';
 import './assets/styles/site.less';
 import './assets/styles/icon-font.css';
 
-
 const HomePage = Loadable({
   loader: () => import(/* webpackChunkName: "home" */'./containers/home'),
   loading: PageLoading
